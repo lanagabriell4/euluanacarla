@@ -1,46 +1,247 @@
-Gere o código completo e funcional em um ÚNICO arquivo `index.html` (contendo todo o HTML, CSS via Tailwind CSS CDN e JavaScript puro/Chart.js via CDN) para o aplicativo web de gerenciamento financeiro do show **"Ainda Bem! Luana canta Marisa"** (Data: 19.12 | Horário: 17:30).
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ainda Bem! Luana canta Marisa - Gestão Financeira</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts: Great Vibes (Cursiva) & Montserrat (Sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-### Regras de Implementação:
-- **Arquivo Único:** Não separe em múltiplos arquivos. Tudo deve funcionar perfeitamente ao abrir o `index.html` no navegador ou hospedar direto no GitHub/Netlify.
-- **Persistência de Dados:** Utilize `localStorage` para que todos os custos, patrocinadores e ingressos salvos permaneçam gravados mesmo se a página for recarregada.
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        peach: '#FDF3EC',
+                        cardBg: '#FFFFFF',
+                        brandPink: '#E03176',
+                        brandGreen: '#5B8C5A',
+                        textDark: '#2D2424',
+                        borderPeach: '#F5DFD0',
+                        quotaGold: '#D4AF37',
+                        quotaSilver: '#A8A9AD'
+                    },
+                    fontFamily: {
+                        cursive: ['"Great Vibes"', 'cursive'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDF3EC;
+            font-family: 'Montserrat', sans-serif;
+            color: #2D2424;
+        }
+        .art-title {
+            font-family: 'Great Vibes', cursive;
+        }
+        /* Esconder abas inativas */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6">
 
-### Identidade Visual & Design:
-- **Estilo:** Painel de controle (dashboard) mobile-first, elegante, artístico e acolhedor.
-- **Paleta de Cores:**
-  - Fundo principal: Salmão claro / pêssego quente (`#FDF3EC`).
-  - Destaque e botões principais: Rosa magenta vibrante (`#E03176`).
-  - Detalhes secundários e indicadores positivos: Verde suave/oliva (`#5B8C5A`).
-  - Textos: Cinza escuro/grafite elegante (`#2D2424`) para ótimo contraste.
-- **Tipografia (via Google Fonts):** Use uma fonte cursiva elegante (como *Great Vibes* ou *Alex Brush*) para os subtítulos/assinaturas e uma fonte sans-serif moderna e limpa (como *Montserrat*) para números, botões e textos.
+    <!-- HEADER / TOPO ARTÍSTICO -->
+    <header class="bg-gradient-to-r from-[#FDF3EC] via-[#F7E5D9] to-[#FDF3EC] border-b border-borderPeach px-4 py-6 shadow-sm">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
+            <div>
+                <span class="text-brandPink font-semibold text-xs tracking-widest uppercase">Gestão Financeira do Espetáculo</span>
+                <h1 class="text-3xl sm:text-4xl font-bold text-textDark tracking-wide mt-1">
+                    Ainda Bem! <span class="art-title text-brandPink text-4xl sm:text-5xl font-normal ml-1">Luana canta Marisa</span>
+                </h1>
+            </div>
+            <div class="flex items-center gap-3 bg-white/80 px-4 py-2 rounded-full border border-borderPeach shadow-sm">
+                <div class="flex items-center gap-1 text-xs font-semibold text-textDark">
+                    <i data-lucide="calendar" class="w-4 h-4 text-brandPink"></i>
+                    <span>19.12</span>
+                </div>
+                <span class="text-borderPeach">|</span>
+                <div class="flex items-center gap-1 text-xs font-semibold text-textDark">
+                    <i data-lucide="clock" class="w-4 h-4 text-brandPink"></i>
+                    <span>17:30</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-### Estrutura de Navegação (SPA - Single Page Application via JavaScript):
-Crie uma barra de navegação inferior (estilo app mobile) e botões na tela inicial para alternar suavemente entre 4 telas sem recarregar a página:
+    <!-- CONTEÚDO PRINCIPAL (SPA) -->
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-grow">
 
-1. **TELA INICIAL (Menu Principal):**
-   - Cabeçalho artístico com o título **"Ainda Bem! Luana canta Marisa"**, data **19.12** e horário **17:30**.
-   - Mini resumo rápido no topo (Saldo Atual: Lucro ou Prejuízo).
-   - 3 Cards grandes e interativos de acesso rápido: **Custos**, **Patrocínio** e **Ingressos**.
+        <!-- TELA 1: HOME / MENU PRINCIPAL -->
+        <section id="view-home" class="tab-content active space-y-6">
+            <!-- Termômetro Rápido / Saldo -->
+            <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Balanço Atual da Produção</h2>
+                    <div id="home-saldo-container" class="flex items-baseline gap-2 mt-1">
+                        <span id="home-saldo-valor" class="text-3xl sm:text-4xl font-bold">R$ 0,00</span>
+                        <span id="home-saldo-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">Calculando...</span>
+                    </div>
+                </div>
+                <button onclick="resetarDados()" class="text-xs text-gray-400 hover:text-brandPink underline transition">
+                    Restaurar Padrão / Limpar Dados
+                </button>
+            </div>
 
-2. **TELA "CUSTOS":**
-   - Formulário para adicionar despesa (Descrição + Valor em R$).
-   - Lista de despesas cadastradas com botão de excluir.
-   - **Balanço e Gráfico em Tempo Real (usando Chart.js):** Gráfico de barras comparando "Ganhos Totais" (Ingressos + Patrocínios) vs. "Custos Totais".
-   - Card de status bem visível mostrando **LUCRO** (em verde) ou **PREJUÍZO / ATENÇÃO** (em rosa/vermelho) e o valor exato da diferença.
+            <!-- Cards de Acesso Rápido -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Card Custos -->
+                <div onclick="switchTab('custos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="wallet" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-textDark">Custos & Despesas</h3>
+                        <p class="text-xs text-gray-500 mt-1">Controle de gastos, balanço e gráfico financeiro.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                        <span id="home-resumo-custos">R$ 0,00 em custos</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
 
-3. **TELA "PATROCÍNIO":**
-   - 3 opções de cotas:
-     - **Cota Ouro:** R$ 1.000,00 (Cor: `#D4AF37` - Dourado)
-     - **Cota Prata:** R$ 700,00 (Cor: `#A8A9AD` - Prateado)
-     - **Cota Apoio:** R$ 400,00 (Cor: `#E03176` - Rosa da arte)
-   - Formulário para cadastrar o nome da marca/empresa e escolher a cota.
-   - Lista das marcas patrocinadoras organizadas por cota (com botão para remover, se necessário).
-   - **Gráfico de Rosca (Doughnut Chart via Chart.js):** Mostrando a distribuição financeira/quantidade entre Ouro, Prata e Apoio usando exatamente as cores acima.
+                <!-- Card Patrocínio -->
+                <div onclick="switchTab('patrocinio')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-textDark">Patrocínio</h3>
+                        <p class="text-xs text-gray-500 mt-1">Cotas Ouro, Prata e Apoio com marcas associadas.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                        <span id="home-resumo-patrocinio">R$ 0,00 captados</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
 
-4. **TELA "INGRESSOS":**
-   - Limite máximo rígido de **100 ingressos**.
-   - Campo para definir/editar o **Valor Unitário do Ingresso (R$)**.
-   - Controles grandes e fáceis (`-` e `+`, além de input direto) para atualizar a quantidade de ingressos vendidos (bloqueando para não passar de 100 nem baixar de 0).
-   - Barra de progresso visual mostrando `X de 100 ingressos vendidos` e a porcentagem de ocupação (`X%`).
-   - Exibição em destaque do **Total Arrecadado com Ingressos (R$)**, que soma automaticamente nos Ganhos Totais da aba Custos.
+                <!-- Card Ingressos -->
+                <div onclick="switchTab('ingressos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="ticket" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-textDark">Ingressos</h3>
+                        <p class="text-xs text-gray-500 mt-1">Vendas até o limite de 100 lugares e receita automática.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                        <span id="home-resumo-ingressos">0 de 100 vendidos</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-Entregue o código HTML completo, sem abreviações ou trechos omitidos, pronto para copiar e salvar como `index.html`.
+        <!-- TELA 2: CUSTOS -->
+        <section id="view-custos" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="switchTab('home')" class="text-xs font-semibold text-brandPink flex items-center gap-1 hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início
+                </button>
+                <h2 class="text-xl font-bold text-textDark">Controle de Custos</h2>
+            </div>
+
+            <!-- Status Banner & Gráfico -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Balanço Consolidado</h3>
+                        <div id="custos-status-banner" class="mt-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
+                            <span id="custos-status-titulo" class="block text-xs font-bold uppercase">Status</span>
+                            <span id="custos-status-valor" class="text-2xl font-bold mt-1 block">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100 text-sm">
+                        <div>
+                            <span class="text-gray-500 block text-xs">Ganhos Totais</span>
+                            <strong id="lbl-ganhos-totais" class="text-brandGreen text-base">R$ 0,00</strong>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-xs">Custos Totais</span>
+                            <strong id="lbl-custos-totais" class="text-brandPink text-base">R$ 0,00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm flex flex-col items-center justify-center">
+                    <div class="w-full h-48 relative">
+                        <canvas id="financeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adicionar Custo -->
+            <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm">
+                <h3 class="text-base font-bold text-textDark mb-4">Adicionar Novo Custo</h3>
+                <form id="form-add-custo" onsubmit="adicionarCusto(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Descrição da Despesa</label>
+                        <input type="text" id="custo-desc" required placeholder="Ex: Sonoplastia, Iluminação, Cachê..." class="w-full px-4 py-2.5 rounded-xl border border-borderPeach focus:outline-none focus:border-brandPink bg-peach/30 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Valor (R$)</label>
+                        <input type="number" step="0.01" min="0.01" id="custo-valor" required placeholder="0,00" class="w-full px-4 py-2.5 rounded-xl border border-borderPeach focus:outline-none focus:border-brandPink bg-peach/30 text-sm">
+                    </div>
+                    <div class="sm:col-span-3 flex justify-end">
+                        <button type="submit" class="bg-brandPink text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition shadow-sm flex items-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Despesa
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Lista de Custos -->
+            <div class="bg-white rounded-2xl border border-borderPeach shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-borderPeach bg-peach/30">
+                    <h3 class="text-sm font-bold text-textDark">Despesas Cadastradas</h3>
+                </div>
+                <div id="lista-custos-container" class="divide-y divide-gray-100 max-h-60 overflow-y-auto">
+                    <div class="p-6 text-center text-sm text-gray-400">Nenhum custo cadastrado até o momento.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TELA 3: PATROCÍNIO -->
+        <section id="view-patrocinio" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="switchTab('home')" class="text-xs font-semibold text-brandPink flex items-center gap-1 hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início
+                </button>
+                <h2 class="text-xl font-bold text-textDark">Gestão de Patrocínios</h2>
+            </div>
+
+            <!-- Cotas Cards / Legenda -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#D4AF37]">
+                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Ouro</span>
+                    <h4 class="text-lg font-bold text-textDark mt-1">R$ 1.000,00</h4>
+                    <p class="text-xs text-gray-500 mt-1">Destaque máximo no evento</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#A8A9AD]">
+                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Prata</span>
+                    <h4 class="text-lg font-bold text-textDark mt-1">R$ 700,00</h4>
+                    <p class="text-xs text-gray-500 mt-1">Divulgação em materiais</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#E03176]">
+                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Apoio</span>
+                    <h
