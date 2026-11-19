@@ -275,18 +275,26 @@
     </main>
 
     <script>
-        let estado = JSON.parse(localStorage.getItem('showAindaBemEstado')) || {
-            custos: [],
-            patrocinadores: [],
-            ingressosVendidos: 0,
-            valorIngresso: 50
-        };
+        let estado;
+        try {
+            estado = JSON.parse(localStorage.getItem('showAindaBemEstado')) || {
+                custos: [],
+                patrocinadores: [],
+                ingressosVendidos: 0,
+                valorIngresso: 50
+            };
+        } catch (e) {
+            localStorage.clear();
+            estado = { custos: [], patrocinadores: [], ingressosVendidos: 0, valorIngresso: 50 };
+        }
 
         let chartCustos = null;
         let chartPatrocinio = null;
 
         function salvarEstado() {
-            localStorage.setItem('showAindaBemEstado', JSON.stringify(estado));
+            try {
+                localStorage.setItem('showAindaBemEstado', JSON.stringify(estado));
+            } catch (e) {}
             atualizarTudo();
         }
 
@@ -296,9 +304,12 @@
 
         function mostrarTela(tela) {
             ['inicio', 'custos', 'patrocinio', 'ingressos'].forEach(id => {
-                document.getElementById('tela-' + id).classList.add('hidden');
+                const el = document.getElementById('tela-' + id);
+                if (el) el.classList.add('hidden');
             });
-            document.getElementById('tela-' + tela).classList.remove('hidden');
+            const telaAlvo = document.getElementById('tela-' + tela);
+            if (telaAlvo) telaAlvo.classList.remove('hidden');
+            window.scrollTo(0, 0);
             atualizarTudo();
         }
 
@@ -370,63 +381,142 @@
             const totalGanhos = totalPatrocinios + totalIngressosValor;
             const saldoLiquido = totalGanhos - totalCustos;
 
-            document.getElementById('resumo-ganhos').innerText = formatarMoeda(totalGanhos);
-            document.getElementById('resumo-custos').innerText = formatarMoeda(totalCustos);
+            const rg = document.getElementById('resumo-ganhos');
+            const rc = document.getElementById('resumo-custos');
+            if (rg) rg.innerText = formatarMoeda(totalGanhos);
+            if (rc) rc.innerText = formatarMoeda(totalCustos);
 
-            document.getElementById('custo-tela-ganhos').innerText = formatarMoeda(totalGanhos);
-            document.getElementById('custo-tela-despesas').innerText = formatarMoeda(totalCustos);
-            document.getElementById('custo-tela-saldo').innerText = formatarMoeda(saldoLiquido);
+            const ctg = document.getElementById('custo-tela-ganhos');
+            const ctd = document.getElementById('custo-tela-despesas');
+            const cts = document.getElementById('custo-tela-saldo');
+            if (ctg) ctg.innerText = formatarMoeda(totalGanhos);
+            if (ctd) ctd.innerText = formatarMoeda(totalCustos);
+            if (cts) cts.innerText = formatarMoeda(saldoLiquido);
 
             const badge = document.getElementById('badge-status-financeiro');
-            if (saldoLiquido > 0) {
-                badge.innerText = 'Em Lucro (' + formatarMoeda(saldoLiquido) + ')';
-                badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-greenShow/15 text-greenShow';
-            } else if (saldoLiquido < 0) {
-                badge.innerText = 'Prejuízo (' + formatarMoeda(saldoLiquido) + ')';
-                badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-magentaShow/15 text-magentaShow';
-            } else {
-                badge.innerText = 'Empate (R$ 0,00)';
-                badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gray-100 text-gray-600';
+            if (badge) {
+                if (saldoLiquido > 0) {
+                    badge.innerText = 'Em Lucro (' + formatarMoeda(saldoLiquido) + ')';
+                    badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-greenShow/15 text-greenShow';
+                } else if (saldoLiquido < 0) {
+                    badge.innerText = 'Prejuízo (' + formatarMoeda(saldoLiquido) + ')';
+                    badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-magentaShow/15 text-magentaShow';
+                } else {
+                    badge.innerText = 'Empate (R$ 0,00)';
+                    badge.className = 'px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gray-100 text-gray-600';
+                }
             }
 
             const listaCustosEl = document.getElementById('lista-custos');
-            if (estado.custos.length === 0) {
-                listaCustosEl.innerHTML = '<p class="text-xs text-gray-400 py-4 text-center">Nenhum custo cadastrado ainda.</p>';
-            } else {
-                listaCustosEl.innerHTML = estado.custos.map(c => `
-                    <div class="py-3 flex justify-between items-center text-sm">
-                        <span class="font-medium text-gray-800">${c.desc}</span>
-                        <div class="flex items-center gap-3">
-                            <span class="font-bold text-magentaShow">${formatarMoeda(c.valor)}</span>
-                            <button onclick="removerCusto(${c.id})" class="text-gray-400 hover:text-red-600 text-xs font-bold">✕</button>
+            if (listaCustosEl) {
+                if (estado.custos.length === 0) {
+                    listaCustosEl.innerHTML = '<p class="text-xs text-gray-400 py-4 text-center">Nenhum custo cadastrado ainda.</p>';
+                } else {
+                    listaCustosEl.innerHTML = estado.custos.map(c => `
+                        <div class="py-3 flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-800">${c.desc}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="font-bold text-magentaShow">${formatarMoeda(c.valor)}</span>
+                                <button onclick="removerCusto(${c.id})" class="text-gray-400 hover:text-red-600 text-xs font-bold">✕</button>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
             }
 
-            document.getElementById('total-patrocinio-texto').innerText = 'Total Patrocínios: ' + formatarMoeda(totalPatrocinios);
+            const tpt = document.getElementById('total-patrocinio-texto');
+            if (tpt) tpt.innerText = 'Total Patrocínios: ' + formatarMoeda(totalPatrocinios);
+
             const listaPatEl = document.getElementById('lista-patrocinadores');
-            const nomesCota = {
-                ouro: { label: 'Ouro (R$ 1.000)', cor: 'bg-goldCota text-white' },
-                prata: { label: 'Prata (R$ 700)', cor: 'bg-silverCota text-white' },
-                apoio: { label: 'Apoio (R$ 400)', cor: 'bg-pinkCota text-white' }
-            };
+            if (listaPatEl) {
+                const nomesCota = {
+                    ouro: { label: 'Ouro (R$ 1.000)', cor: 'bg-goldCota text-white' },
+                    prata: { label: 'Prata (R$ 700)', cor: 'bg-silverCota text-white' },
+                    apoio: { label: 'Apoio (R$ 400)', cor: 'bg-pinkCota text-white' }
+                };
 
-            if (estado.patrocinadores.length === 0) {
-                listaPatEl.innerHTML = '<p class="text-xs text-gray-400 py-4 text-center">Nenhuma marca patrocinadora cadastrada ainda.</p>';
-            } else {
-                listaPatEl.innerHTML = estado.patrocinadores.map(p => `
-                    <div class="py-3 flex justify-between items-center text-sm">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${nomesCota[p.cota].cor}">${nomesCota[p.cota].label}</span>
-                            <span class="font-bold text-gray-800">${p.nome}</span>
+                if (estado.patrocinadores.length === 0) {
+                    listaPatEl.innerHTML = '<p class="text-xs text-gray-400 py-4 text-center">Nenhuma marca patrocinadora cadastrada ainda.</p>';
+                } else {
+                    listaPatEl.innerHTML = estado.patrocinadores.map(p => `
+                        <div class="py-3 flex justify-between items-center text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${nomesCota[p.cota].cor}">${nomesCota[p.cota].label}</span>
+                                <span class="font-bold text-gray-800">${p.nome}</span>
+                            </div>
+                            <button onclick="removerPatrocinador(${p.id})" class="text-gray-400 hover:text-red-600 text-xs font-bold">✕</button>
                         </div>
-                        <button onclick="removerPatrocinador(${p.id})" class="text-gray-400 hover:text-red-600 text-xs font-bold">✕</button>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
             }
 
-            document.getElementById('input-valor-ingresso').value = estado.valorIngresso;
-            document.getElementById('ingressos-vendidos-num').innerText = estado.ingressosVendidos;
-            document.getElementById('barra-ingressos').style.width = estado.ingressosVendidos + '%';
-            document.getElementById('receita-ingressos
+            const ivi = document.getElementById('input-valor-ingresso');
+            const ivn = document.getElementById('ingressos-vendidos-num');
+            const bi = document.getElementById('barra-ingressos');
+            const rit = document.getElementById('receita-ingressos-total');
+
+            if (ivi) ivi.value = estado.valorIngresso;
+            if (ivn) ivn.innerText = estado.ingressosVendidos;
+            if (bi) bi.style.width = estado.ingressosVendidos + '%';
+            if (rit) rit.innerText = formatarMoeda(totalIngressosValor);
+
+            atualizarGraficos(totalGanhos, totalCustos);
+        }
+
+        function atualizarGraficos(totalGanhos, totalCustos) {
+            const ctxCustos = document.getElementById('graficoCustosGanhos');
+            if (ctxCustos && window.Chart) {
+                if (chartCustos) chartCustos.destroy();
+                chartCustos = new Chart(ctxCustos, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ganhos Totais', 'Custos Totais'],
+                        datasets: [{
+                            data: [totalGanhos, totalCustos],
+                            backgroundColor: ['#2E9E6B', '#D8296B'],
+                            borderRadius: 12,
+                            barThickness: 50
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            const ctxPat = document.getElementById('graficoPatrocinio');
+            if (ctxPat && window.Chart) {
+                const qtdOuro = estado.patrocinadores.filter(p => p.cota === 'ouro').length;
+                const qtdPrata = estado.patrocinadores.filter(p => p.cota === 'prata').length;
+                const qtdApoio = estado.patrocinadores.filter(p => p.cota === 'apoio').length;
+                const temDados = (qtdOuro + qtdPrata + qtdApoio) > 0;
+
+                if (chartPatrocinio) chartPatrocinio.destroy();
+                chartPatrocinio = new Chart(ctxPat, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Cota Ouro', 'Cota Prata', 'Cota Apoio'],
+                        datasets: [{
+                            data: temDados ? [qtdOuro, qtdPrata, qtdApoio] : [1, 1, 1],
+                            backgroundColor: temDados ? ['#D4AF37', '#A8A9AD', '#F472B6'] : ['#E5E7EB', '#E5E7EB', '#E5E7EB'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
+                    }
+                });
+            }
+        }
+
+        window.onload = function() {
+            atualizarTudo();
+        };
+    </script>
+</body>
+</html>
