@@ -48,7 +48,7 @@
                     <div class="md:col-span-7 space-y-4 text-center md:text-left">
                         <div>
                             <h1 class="text-2xl md:text-3xl font-extrabold art-pink tracking-tight">Controlando o meu espetáculo!</h1>
-                            <p id="frase-motivacional" class="text-gray-600 text-xs md:text-sm font-medium italic mt-2 bg-peach-light py-2 px-3 rounded-xl inline-block border border-orange-200">✨ Carregando energia positiva...</p>
+                            <p id="frase-motivacional" class="text-gray-600 text-xs md:text-sm font-medium italic mt-2">Carregando mensagem...</p>
                             <p class="text-[11px] text-gray-400 mt-1">Ainda Bem! • Luana canta Marisa (19.12 às 17:30)</p>
                         </div>
 
@@ -71,11 +71,11 @@
                 </div>
             </div>
 
-            <!-- Gráfico Geral na Primeira Página para Entender a Situação do Momento -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Panorama do Momento (Receitas vs Custos)</h3>
-                <p class="text-xs text-gray-500 mb-4">Veja em tempo real se o espetáculo está gerando lucro ou prejuízo[cite: 3].</p>
-                <div class="relative h-60 w-full">
+            <!-- Gráfico Circular / Panorama na Primeira Página -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
+                <h3 class="text-lg font-bold text-gray-800 mb-1 w-full text-left">Panorama do Momento (Receitas vs Custos)</h3>
+                <p class="text-xs text-gray-500 mb-4 w-full text-left">Proporção visual entre o que entrou e o que foi gasto[cite: 3].</p>
+                <div class="relative h-64 w-full max-w-xs">
                     <canvas id="homeChart"></canvas>
                 </div>
             </div>
@@ -127,11 +127,11 @@
                 </form>
             </div>
 
-            <!-- Gráfico Automatizado e Lista de Custos -->
+            <!-- Gráfico Circular de Custos vs Receitas e Lista -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col justify-between">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Custos vs Receitas</h3>
-                    <div class="relative h-56 w-full">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Custos vs Receitas</h3>
+                    <div class="relative h-56 w-full max-w-xs">
                         <canvas id="custosChart"></canvas>
                     </div>
                 </div>
@@ -223,48 +223,4 @@
                         <span id="texto-progresso" class="text-sm font-extrabold text-art-pink">0 / 100 ingressos</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                        <div id="barra-progresso" class="bg-art-pink h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-orange-200">
-                        <span class="text-sm font-medium text-gray-600">Total Arrecadado com Ingressos:</span>
-                        <span id="total-ingressos-valor" class="text-xl font-bold text-emerald-600">R$ 0,00</span>
-                    </div>
-                    <div class="text-right">
-                        <button type="button" onclick="resetarIngressos()" class="text-xs text-rose-600 font-semibold hover:underline cursor-pointer">Zerar contagem de ingressos</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Script de Lógica, Gráficos e Frases Aleatórias -->
-    <script>
-        // Frases de autoconfiança e positividade para o show
-        const frasesPositivas = [
-            "✨ 'Ainda bem' que você acreditou nesse sonho! O espetáculo vai ser inesquecível!",
-            "🌟 Sua arte ilumina o mundo. Cada passo dado nos traz mais perto do sucesso absoluto!",
-            "💖 Confie no seu talento e na sua dedicação. Este show já nasceu brilhando!",
-            "🎶 A energia da Marisa e a sua voz vão emocionar a todos. Vai dar tudo certo!",
-            "🚀 Organização impecável e paixão pelo que faz: a receita perfeita para lotar o teatro!",
-            "💫 Cada aplauso será o reflexo de todo o seu esforço e amor pela música."
-        ];
-
-        // Definir frase aleatória ao carregar/atualizar a página
-        document.getElementById('frase-motivacional').innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
-
-        // Dados globais salvos no localStorage
-        let dados = JSON.parse(localStorage.getItem('show_aindabem_data')) || {
-            custos: [],
-            patrocinios: [],
-            precoIngresso: 50.00,
-            qtdIngressos: 0
-        };
-
-        let homeChartInstance = null;
-        let custosChartInstance = null;
-        let patrocinioChartInstance = null;
-
-        // Alternar entre Telas / Abas com correção de eventos
-        function switchView(viewId) {
-            ['home', 'custos', 'patrocinio', 'ingressos'].forEach(v => {
+                        <div id="barra-progresso" class="bg-art-pink h-3 rounded-full transition-all duration-300"
