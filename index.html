@@ -25,6 +25,13 @@
         .bg-peach-light {
             background-color: #faede6;
         }
+        /* Classes auxiliares para controle de exibição direta */
+        .view-content {
+            display: none;
+        }
+        .view-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -33,7 +40,7 @@
     <main class="max-w-4xl mx-auto mt-6 px-4">
 
         <!-- ================= TELA INICIAL (HOME) ================= -->
-        <section id="view-home" class="space-y-6">
+        <div id="view-home" class="view-content active space-y-6">
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                     <div class="md:col-span-5 flex justify-center">
@@ -94,11 +101,11 @@
                     <span class="text-xs text-gray-500">Controle de vendas (até 100)</span>
                 </button>
             </div>
-        </section>
+        </div>
 
 
         <!-- ================= ABA 1: CUSTOS ================= -->
-        <section id="view-custos" class="hidden space-y-6">
+        <div id="view-custos" class="view-content space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
                 <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Gerenciamento de Custos</h2>
@@ -136,11 +143,11 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
 
         <!-- ================= ABA 2: PATROCÍNIO ================= -->
-        <section id="view-patrocinio" class="hidden space-y-6">
+        <div id="view-patrocinio" class="view-content space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
                 <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Cotas de Patrocínio</h2>
@@ -183,11 +190,11 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
 
         <!-- ================= ABA 3: INGRESSOS ================= -->
-        <section id="view-ingressos" class="hidden space-y-6">
+        <div id="view-ingressos" class="view-content space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
                 <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Controle de Ingressos</h2>
@@ -212,220 +219,4 @@
                 </div>
 
                 <div class="bg-peach-light p-5 rounded-xl border border-orange-200 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-semibold uppercase text-gray-700">Total de Ingressos Vendidos Até o Momento</span>
-                        <span id="texto-progresso" class="text-sm font-extrabold text-art-pink">0 / 100 ingressos</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                        <div id="barra-progresso" class="bg-art-pink h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <div class="flex justify-between items-center pt-3 border-t border-orange-200">
-                        <span class="text-sm font-medium text-gray-600">Total Arrecadado com Ingressos:</span>
-                        <span id="total-ingressos-valor" class="text-xl font-bold text-emerald-600">R$ 0,00</span>
-                    </div>
-                    <div class="text-right">
-                        <button type="button" onclick="resetarIngressos()" class="text-xs text-rose-600 font-semibold hover:underline cursor-pointer">Zerar contagem de ingressos</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Script Robusto e Seguro -->
-    <script>
-        const frasesPositivas = [
-            "Ainda bem que você acreditou nesse sonho! O espetáculo vai ser inesquecível.",
-            "Sua arte ilumina o mundo. Cada passo dado nos traz mais perto do sucesso absoluto.",
-            "Confie no seu talento e na sua dedicação. Este show já nasceu brilhando.",
-            "A energia da Marisa e a sua voz vão emocionar a todos. Vai dar tudo certo.",
-            "Organização impecável e paixão pelo que faz: a receita perfeita para lotar o teatro.",
-            "Cada aplauso será o reflexo de todo o seu esforço e amor pela música."
-        ];
-
-        const elFrase = document.getElementById('frase-motivacional');
-        if (elFrase) {
-            elFrase.innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
-        }
-
-        let dados = { custos: [], patrocinios: [], precoIngresso: 50.00, qtdIngressos: 0 };
-        try {
-            const saved = localStorage.getItem('show_aindabem_data');
-            if (saved) {
-                dados = JSON.parse(saved);
-                if (!Array.isArray(dados.custos)) dados.custos = [];
-                if (!Array.isArray(dados.patrocinios)) dados.patrocinios = [];
-            }
-        } catch (e) {
-            console.error("Erro ao carregar localStorage:", e);
-        }
-
-        let homeChartInstance = null;
-        let custosChartInstance = null;
-        let patrocinioChartInstance = null;
-
-        window.switchView = function(viewId) {
-            const views = ['home', 'custos', 'patrocinio', 'ingressos'];
-            views.forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                if (el) {
-                    if (v === viewId) {
-                        el.classList.remove('hidden');
-                    } else {
-                        el.classList.add('hidden');
-                    }
-                }
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            setTimeout(() => {
-                if (viewId === 'home') atualizarGraficoHome();
-                if (viewId === 'custos') atualizarGraficoCustos();
-                if (viewId === 'patrocinio') atualizarGraficoPatrocinios();
-            }, 50);
-        };
-
-        function calcularTotais() {
-            const totalCustos = dados.custos.reduce((acc, item) => acc + Number(item.valor || 0), 0);
-            const totalPatrocinios = dados.patrocinios.reduce((acc, item) => {
-                if (item.cota === 'ouro') return acc + 1000;
-                if (item.cota === 'prata') return acc + 700;
-                if (item.cota === 'apoio') return acc + 400;
-                return acc;
-            }, 0);
-            const totalIngressos = Number(dados.qtdIngressos || 0) * Number(dados.precoIngresso || 0);
-            const totalReceitas = totalPatrocinios + totalIngressos;
-            const saldo = totalReceitas - totalCustos;
-
-            return { totalCustos, totalPatrocinios, totalIngressos, totalReceitas, saldo };
-        }
-
-        function atualizarUI() {
-            const totais = calcularTotais();
-
-            const elRec = document.getElementById('home-receitas');
-            if (elRec) elRec.innerText = `R$ ${totais.totalReceitas.toFixed(2)}`;
-
-            const elCus = document.getElementById('home-custos');
-            if (elCus) elCus.innerText = `R$ ${totais.totalCustos.toFixed(2)}`;
-
-            const elSaldoHome = document.getElementById('home-saldo');
-            if (elSaldoHome) {
-                elSaldoHome.innerText = `R$ ${totais.saldo.toFixed(2)}`;
-                elSaldoHome.className = `text-sm md:text-base font-bold mt-0.5 ${totais.saldo >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
-            }
-
-            const elPreco = document.getElementById('ingresso-preco');
-            if (elPreco) elPreco.value = dados.precoIngresso;
-
-            const elTotalIng = document.getElementById('total-ingressos-valor');
-            if (elTotalIng) elTotalIng.innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
-
-            const elProgText = document.getElementById('texto-progresso');
-            if (elProgText) elProgText.innerText = `${dados.qtdIngressos} / 100 ingressos`;
-
-            const elBarra = document.getElementById('barra-progresso');
-            if (elBarra) elBarra.style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
-
-            renderizarListas();
-            salvarStorage();
-        }
-
-        function salvarStorage() {
-            try {
-                localStorage.setItem('show_aindabem_data', JSON.stringify(dados));
-            } catch (e) {
-                console.error("Erro ao salvar localStorage:", e);
-            }
-        }
-
-        const formCusto = document.getElementById('form-custo');
-        if (formCusto) {
-            formCusto.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const descInput = document.getElementById('custo-desc');
-                const valorInput = document.getElementById('custo-valor');
-                if (!descInput || !valorInput) return;
-
-                const desc = descInput.value;
-                const valor = parseFloat(valorInput.value);
-
-                dados.custos.push({ id: Date.now(), desc, valor });
-                descInput.value = '';
-                valorInput.value = '';
-                atualizarUI();
-                atualizarGraficoCustos();
-                atualizarGraficoHome();
-            });
-        }
-
-        window.excluirCusto = function(id) {
-            dados.custos = dados.custos.filter(item => item.id !== id);
-            atualizarUI();
-            atualizarGraficoCustos();
-            atualizarGraficoHome();
-        };
-
-        const formPat = document.getElementById('form-patrocinio');
-        if (formPat) {
-            formPat.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const marcaInput = document.getElementById('pat-marca');
-                const cotaSelect = document.getElementById('pat-cota');
-                if (!marcaInput || !cotaSelect) return;
-
-                const marca = marcaInput.value;
-                const cota = cotaSelect.value;
-
-                dados.patrocinios.push({ id: Date.now(), marca, cota });
-                marcaInput.value = '';
-                atualizarUI();
-                atualizarGraficoPatrocinios();
-                atualizarGraficoHome();
-            });
-        }
-
-        window.excluirPatrocinio = function(id) {
-            dados.patrocinios = dados.patrocinios.filter(item => item.id !== id);
-            atualizarUI();
-            atualizarGraficoPatrocinios();
-            atualizarGraficoHome();
-        };
-
-        window.salvarConfigIngressos = function() {
-            const precoInput = document.getElementById('ingresso-preco');
-            if (precoInput) {
-                dados.precoIngresso = parseFloat(precoInput.value) || 0;
-                atualizarUI();
-                atualizarGraficoHome();
-            }
-        };
-
-        window.adicionarVendas = function() {
-            const vendaInput = document.getElementById('nova-venda-qtd');
-            if (!vendaInput) return;
-
-            const qtdAdicionar = parseInt(vendaInput.value) || 0;
-            if (qtdAdicionar <= 0) return;
-
-            let novaQtd = Number(dados.qtdIngressos) + qtdAdicionar;
-            if (novaQtd > 100) novaQtd = 100;
-
-            dados.qtdIngressos = novaQtd;
-            vendaInput.value = '';
-            atualizarUI();
-            atualizarGraficoHome();
-            atualizarGraficoCustos();
-        };
-
-        window.resetarIngressos = function() {
-            if (confirm("Deseja zerar todos os ingressos vendidos?")) {
-                dados.qtdIngressos = 0;
-                atualizarUI();
-                atualizarGraficoHome();
-                atualizarGraficoCustos();
-            }
-        };
-
-        function renderizarListas() {
-            const div
+                    <div class="flex justify-between
