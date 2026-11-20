@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f7dcd0; /* Tom quente de pêssego/salmão suave */
+            background-color: #f7dcd0;
             color: #2b2b2b;
         }
         .art-pink {
@@ -34,17 +34,14 @@
 
         <!-- ================= TELA INICIAL (HOME) ================= -->
         <section id="view-home" class="space-y-6">
-            <!-- Capa, Frase e Resumo Lado a Lado -->
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                    <!-- Imagem do Show -->
                     <div class="md:col-span-5 flex justify-center">
                         <div class="w-full h-64 md:h-72 rounded-2xl overflow-hidden shadow-md border border-orange-100 bg-peach-light flex items-center justify-center">
                             <img src="teste3.jpg" alt="Arte do Show - Ainda Bem!" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=60';">
                         </div>
                     </div>
                     
-                    <!-- Textos e Resumos Financeiros ao Lado -->
                     <div class="md:col-span-7 space-y-4 text-center md:text-left">
                         <div>
                             <h1 class="text-2xl md:text-3xl font-extrabold art-pink tracking-tight">Controlando o meu espetáculo!</h1>
@@ -52,7 +49,6 @@
                             <p class="text-[11px] text-gray-400 mt-1">Ainda Bem! • Luana canta Marisa (19.12 às 17:30)</p>
                         </div>
 
-                        <!-- Cards de Resumo Compactos -->
                         <div class="grid grid-cols-3 gap-2 pt-1">
                             <div class="bg-peach-light/50 p-3 rounded-xl border border-orange-100 text-center">
                                 <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Receitas</p>
@@ -71,7 +67,6 @@
                 </div>
             </div>
 
-            <!-- Gráfico Circular / Panorama na Primeira Página -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
                 <h3 class="text-lg font-bold text-gray-800 mb-1 w-full text-left">Panorama do Momento (Receitas vs Custos)</h3>
                 <p class="text-xs text-gray-500 mb-4 w-full text-left">Proporção visual entre o que entrou e o que foi gasto.</p>
@@ -80,7 +75,6 @@
                 </div>
             </div>
 
-            <!-- 3 Botões Principais de Navegação -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                 <button type="button" onclick="switchView('custos')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group cursor-pointer">
                     <span class="text-3xl">💸</span>
@@ -127,7 +121,6 @@
                 </form>
             </div>
 
-            <!-- Gráfico Circular de Custos vs Receitas e Lista -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
                     <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Custos vs Receitas</h3>
@@ -173,7 +166,6 @@
                 </form>
             </div>
 
-            <!-- Gráfico Redondo de Cotas com Cores Específicas e Lista -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
                     <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Quantidade por Cota</h3>
@@ -216,7 +208,6 @@
                     </div>
                 </div>
 
-                <!-- Barra de Progresso da Capacidade e Total Geral Vendido -->
                 <div class="bg-peach-light p-5 rounded-xl border border-orange-200 space-y-4">
                     <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold uppercase text-gray-700">Total de Ingressos Vendidos Até o Momento</span>
@@ -238,9 +229,8 @@
 
     </main>
 
-    <!-- Script de Lógica, Gráficos Circulares e Frases Aleatórias -->
+    <!-- Script Robusto e Seguro -->
     <script>
-        // Frases de autoconfiança e positividade para o show (sem emojis)
         const frasesPositivas = [
             "Ainda bem que você acreditou nesse sonho! O espetáculo vai ser inesquecível.",
             "Sua arte ilumina o mundo. Cada passo dado nos traz mais perto do sucesso absoluto.",
@@ -250,23 +240,31 @@
             "Cada aplauso será o reflexo de todo o seu esforço e amor pela música."
         ];
 
-        // Definir frase aleatória ao carregar/atualizar a página (sem emojis)
-        document.getElementById('frase-motivacional').innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
+        // Frase aleatória segura
+        const elFrase = document.getElementById('frase-motivacional');
+        if (elFrase) {
+            elFrase.innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
+        }
 
-        // Dados globais salvos no localStorage
-        let dados = JSON.parse(localStorage.getItem('show_aindabem_data')) || {
-            custos: [],
-            patrocinios: [],
-            precoIngresso: 50.00,
-            qtdIngressos: 0
-        };
+        // Recuperação segura do localStorage
+        let dados = { custos: [], patrocinios: [], precoIngresso: 50.00, qtdIngressos: 0 };
+        try {
+            const saved = localStorage.getItem('show_aindabem_data');
+            if (saved) {
+                dados = JSON.parse(saved);
+                if (!Array.isArray(dados.custos)) dados.custos = [];
+                if (!Array.isArray(dados.patrocinios)) dados.patrocinios = [];
+            }
+        } catch (e) {
+            console.error("Erro ao carregar localStorage:", e);
+        }
 
         let homeChartInstance = null;
         let custosChartInstance = null;
         let patrocinioChartInstance = null;
 
-        // Alternar entre Telas / Abas com correção de exibição
-        function switchView(viewId) {
+        // Função de navegação blindada contra falhas
+        window.switchView = function(viewId) {
             const views = ['home', 'custos', 'patrocinio', 'ingressos'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
@@ -280,103 +278,155 @@
             });
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Atualiza o gráfico específico da aba aberta após renderizar
+            // Renderiza o gráfico da aba ativa com segurança
             setTimeout(() => {
                 if (viewId === 'home') atualizarGraficoHome();
                 if (viewId === 'custos') atualizarGraficoCustos();
                 if (viewId === 'patrocinio') atualizarGraficoPatrocinios();
             }, 50);
-        }
+        };
 
-        // Cálculos Financeiros
         function calcularTotais() {
-            const totalCustos = dados.custos.reduce((acc, item) => acc + Number(item.valor), 0);
+            const totalCustos = dados.custos.reduce((acc, item) => acc + Number(item.valor || 0), 0);
             const totalPatrocinios = dados.patrocinios.reduce((acc, item) => {
                 if (item.cota === 'ouro') return acc + 1000;
                 if (item.cota === 'prata') return acc + 700;
                 if (item.cota === 'apoio') return acc + 400;
                 return acc;
             }, 0);
-            const totalIngressos = Number(dados.qtdIngressos) * Number(dados.precoIngresso);
+            const totalIngressos = Number(dados.qtdIngressos || 0) * Number(dados.precoIngresso || 0);
             const totalReceitas = totalPatrocinios + totalIngressos;
             const saldo = totalReceitas - totalCustos;
 
             return { totalCustos, totalPatrocinios, totalIngressos, totalReceitas, saldo };
         }
 
-        // Atualizar Interface Geral
         function atualizarUI() {
             const totais = calcularTotais();
 
-            // Home / Resumos
-            document.getElementById('home-receitas').innerText = `R$ ${totais.totalReceitas.toFixed(2)}`;
-            document.getElementById('home-custos').innerText = `R$ ${totais.totalCustos.toFixed(2)}`;
-            const elSaldoHome = document.getElementById('home-saldo');
-            elSaldoHome.innerText = `R$ ${totais.saldo.toFixed(2)}`;
-            elSaldoHome.className = `text-sm md:text-base font-bold mt-0.5 ${totais.saldo >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+            const elRec = document.getElementById('home-receitas');
+            if (elRec) elRec.innerText = `R$ ${totais.totalReceitas.toFixed(2)}`;
 
-            // Ingressos UI
-            document.getElementById('ingresso-preco').value = dados.precoIngresso;
-            document.getElementById('total-ingressos-valor').innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
-            document.getElementById('texto-progresso').innerText = `${dados.qtdIngressos} / 100 ingressos`;
-            document.getElementById('barra-progresso').style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
+            const elCus = document.getElementById('home-custos');
+            if (elCus) elCus.innerText = `R$ ${totais.totalCustos.toFixed(2)}`;
+
+            const elSaldoHome = document.getElementById('home-saldo');
+            if (elSaldoHome) {
+                elSaldoHome.innerText = `R$ ${totais.saldo.toFixed(2)}`;
+                elSaldoHome.className = `text-sm md:text-base font-bold mt-0.5 ${totais.saldo >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+            }
+
+            const elPreco = document.getElementById('ingresso-preco');
+            if (elPreco) elPreco.value = dados.precoIngresso;
+
+            const elTotalIng = document.getElementById('total-ingressos-valor');
+            if (elTotalIng) elTotalIng.innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
+
+            const elProgText = document.getElementById('texto-progresso');
+            if (elProgText) elProgText.innerText = `${dados.qtdIngressos} / 100 ingressos`;  const elBarra = document.getElementById('barra-progresso'); if (elBarra) elBarra.style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
 
             renderizarListas();
             salvarStorage();
         }
 
-        // Salvar LocalStorage
         function salvarStorage() {
-            localStorage.setItem('show_aindabem_data', JSON.stringify(dados));
+            try {
+                localStorage.setItem('show_aindabem_data', JSON.stringify(dados));
+            } catch (e) {
+                console.error("Erro ao salvar localStorage:", e);
+            }
         }
 
-        // Gestão de Custos
-        document.getElementById('form-custo').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const desc = document.getElementById('custo-desc').value;
-            const valor = parseFloat(document.getElementById('custo-valor').value);
+        // Listener seguro para o formulário de custos
+        const formCusto = document.getElementById('form-custo');
+        if (formCusto) {
+            formCusto.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const descInput = document.getElementById('custo-desc');
+                const valorInput = document.getElementById('custo-valor');
+                if (!descInput || !valorInput) return;
 
-            dados.custos.push({ id: Date.now(), desc, valor });
-            document.getElementById('custo-desc').value = '';
-            document.getElementById('custo-valor').value = '';
-            atualizarUI();
-            atualizarGraficoCustos();
-            atualizarGraficoHome();
-        });
+                const desc = descInput.value;
+                const valor = parseFloat(valorInput.value);
 
-        function excluirCusto(id) {
+                dados.custos.push({ id: Date.now(), desc, valor });
+                descInput.value = '';
+                valorInput.value = '';
+                atualizarUI();
+                atualizarGraficoCustos();
+                atualizarGraficoHome();
+            });
+        }
+
+        window.excluirCusto = function(id) {
             dados.custos = dados.custos.filter(item => item.id !== id);
             atualizarUI();
             atualizarGraficoCustos();
             atualizarGraficoHome();
+        };
+
+        // Listener seguro para o formulário de patrocínios
+        const formPat = document.getElementById('form-patrocinio');
+        if (formPat) {
+            formPat.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const marcaInput = document.getElementById('pat-marca');
+                const cotaSelect = document.getElementById('pat-cota');
+                if (!marcaInput || !cotaSelect) return;
+
+                const marca = marcaInput.value;
+                const cota = cotaSelect.value;
+
+                dados.patrocinios.push({ id: Date.now(), marca, cota });
+                marcaInput.value = '';
+                atualizarUI();
+                atualizarGraficoPatrocinios();
+                atualizarGraficoHome();
+            });
         }
 
-        // Gestão de Patrocínios
-        document.getElementById('form-patrocinio').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const marca = document.getElementById('pat-marca').value;
-            const cota = document.getElementById('pat-cota').value;
-
-            dados.patrocinios.push({ id: Date.now(), marca, cota });
-            document.getElementById('pat-marca').value = '';
-            atualizarUI();
-            atualizarGraficoPatrocinios();
-            atualizarGraficoHome();
-        });
-
-        function excluirPatrocinio(id) {
+        window.excluirPatrocinio = function(id) {
             dados.patrocinios = dados.patrocinios.filter(item => item.id !== id);
             atualizarUI();
             atualizarGraficoPatrocinios();
             atualizarGraficoHome();
-        }
+        };
 
-        // Configuração e Adição de Ingressos
-        function salvarConfigIngressos() {
-            dados.precoIngresso = parseFloat(document.getElementById('ingresso-preco').value) || 0;
+        window.salvarConfigIngressos = function() {
+            const precoInput = document.getElementById('ingresso-preco');
+            if (precoInput) {
+                dados.precoIngresso = parseFloat(precoInput.value) || 0;
+                atualizarUI();
+                atualizarGraficoHome();
+            }
+        };
+
+        window.adicionarVendas = function() {
+            const vendaInput = document.getElementById('nova-venda-qtd');
+            if (!vendaInput) return;
+
+            const qtdAdicionar = parseInt(vendaInput.value) || 0;
+            if (qtdAdicionar <= 0) return;
+
+            let novaQtd = Number(dados.qtdIngressos) + qtdAdicionar;
+            if (novaQtd > 100) novaQtd = 100;
+
+            dados.qtdIngressos = novaQtd;
+            vendaInput.value = '';
             atualizarUI();
             atualizarGraficoHome();
-        }
+        };
 
-        function adicionarVendas() {
-            const qtdAdicionar = parseInt(document.getElementById('
+        window.resetarIngressos = function() {
+            if (confirm("Deseja zerar todos os ingressos vendidos?")) {
+                dados.qtdIngressos = 0;
+                atualizarUI();
+                atualizarGraficoHome();
+            }
+        };
+
+        function renderizarListas() {
+            const divCustos = document.getElementById('lista-custos');
+            if (divCustos) {
+                if (!dados.custos || dados.custos.length === 0) {
+                    divCustos.innerHTML = `<p class="text-gray-400
