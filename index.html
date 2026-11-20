@@ -57,11 +57,21 @@
         .tab-content.active {
             display: block;
         }
+        /* Formato orgânico fluído estilo mancha */
+        .organic-shape-1 {
+            border-radius: 2.5rem 1.8rem 3rem 1.5rem / 2rem 2.8rem 1.6rem 3rem;
+        }
+        .organic-shape-2 {
+            border-radius: 1.8rem 3rem 2.2rem 2.5rem / 2.5rem 1.8rem 3rem 2.2rem;
+        }
+        .organic-shape-3 {
+            border-radius: 3rem 2rem 1.5rem 2.8rem / 1.8rem 2.5rem 2.8rem 1.5rem;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6">
 
-    <!-- HEADER / TOPO ARTÍSTICO -->
+    <!-- CABEÇALHO ARTÍSTICO / IDENTIDADE DO SHOW -->
     <header class="bg-gradient-to-r from-[#FDF3EC] via-[#F7E5D9] to-[#FDF3EC] border-b border-borderPeach px-4 py-6 shadow-sm">
         <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
             <div>
@@ -89,12 +99,31 @@
 
         <!-- TELA 1: HOME / MENU PRINCIPAL -->
         <section id="view-home" class="tab-content active space-y-6">
+            <!-- Descrição e Subtítulo -->
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    Acompanhe despesas, gerencie as cotas de patrocínio e monitore a venda dos 100 ingressos em tempo real.
+                </p>
+            </div>
+
+            <!-- Cards de Resumo Rápido (Total Arrecadado e Total Custos) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Arrecadado</span>
+                    <span id="home-total-arrecadado" class="text-3xl font-bold text-brandGreen mt-2">R$ 0,00</span>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col justify-between">
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Custos</span>
+                    <span id="home-total-custos" class="text-3xl font-bold text-brandPink mt-2">R$ 0,00</span>
+                </div>
+            </div>
+
             <!-- Termômetro Rápido / Saldo -->
             <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                     <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Balanço Atual da Produção</h2>
                     <div id="home-saldo-container" class="flex items-baseline gap-2 mt-1">
-                        <span id="home-saldo-valor" class="text-3xl sm:text-4xl font-bold">R$ 0,00</span>
+                        <span id="home-saldo-valor" class="text-2xl sm:text-3xl font-bold">R$ 0,00</span>
                         <span id="home-saldo-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">Calculando...</span>
                     </div>
                 </div>
@@ -103,52 +132,60 @@
                 </button>
             </div>
 
-            <!-- Cards de Acesso Rápido -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Cards de Navegação Rápida (Com bordas orgânicas e ícone ao lado do título) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
                 <!-- Card Custos -->
-                <div onclick="switchTab('custos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('custos')" class="bg-white p-6 organic-shape-1 border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
-                            <i data-lucide="wallet" class="w-6 h-6"></i>
+                        <div class="flex items-center gap-3.5 mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-peach flex items-center justify-center text-brandPink group-hover:scale-110 transition shrink-0 shadow-sm">
+                                <i data-lucide="wallet" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-textDark tracking-wide">CUSTOS</h3>
                         </div>
-                        <h3 class="text-lg font-bold text-textDark">Custos & Despesas</h3>
-                        <p class="text-xs text-gray-500 mt-1">Controle de gastos, balanço e gráfico financeiro.</p>
+                        <p class="text-xs text-gray-500 pl-1">Lançar despesas e comparar lucros vs. gastos</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-semibold text-brandPink pl-1">
                         <span id="home-resumo-custos">R$ 0,00 em custos</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
 
                 <!-- Card Patrocínio -->
-                <div onclick="switchTab('patrocinio')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('patrocinio')" class="bg-white p-6 organic-shape-2 border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
-                            <i data-lucide="award" class="w-6 h-6"></i>
+                        <div class="flex items-center gap-3.5 mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-peach flex items-center justify-center text-brandPink group-hover:scale-110 transition shrink-0 shadow-sm">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-textDark tracking-wide">PATROCÍNIO</h3>
                         </div>
-                        <h3 class="text-lg font-bold text-textDark">Patrocínio</h3>
-                        <p class="text-xs text-gray-500 mt-1">Cotas Ouro, Prata e Apoio com marcas associadas.</p>
+                        <p class="text-xs text-gray-500 pl-1">Cotas Ouro, Prata e Apoio com marcas</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-semibold text-brandPink pl-1">
                         <span id="home-resumo-patrocinio">R$ 0,00 captados</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
 
                 <!-- Card Ingressos -->
-                <div onclick="switchTab('ingressos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('ingressos')" class="bg-brandPink text-white p-6 organic-shape-3 shadow-md hover:opacity-95 transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
-                            <i data-lucide="ticket" class="w-6 h-6"></i>
+                        <div class="flex items-center gap-3.5 mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-white group-hover:scale-110 transition shrink-0 shadow-sm">
+                                <i data-lucide="ticket" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white tracking-wide">INGRESSOS</h3>
                         </div>
-                        <h3 class="text-lg font-bold text-textDark">Ingressos</h3>
-                        <p class="text-xs text-gray-500 mt-1">Vendas até o limite de 100 lugares e receita automática.</p>
+                        <p class="text-xs text-peach/90 pl-1">Confirmar vendas (limite de 100 ingressos)</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
+                    <div class="mt-6 pt-4 border-t border-white/20 flex justify-between items-center text-xs font-semibold text-white pl-1">
                         <span id="home-resumo-ingressos">0 de 100 vendidos</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -213,483 +250,3 @@
             <!-- Lista de Custos -->
             <div class="bg-white rounded-2xl border border-borderPeach shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-borderPeach bg-peach/30">
-                    <h3 class="text-sm font-bold text-textDark">Despesas Cadastradas</h3>
-                </div>
-                <div id="lista-custos-container" class="divide-y divide-gray-100 max-h-60 overflow-y-auto">
-                    <div class="p-6 text-center text-sm text-gray-400">Nenhum custo cadastrado até o momento.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TELA 3: PATROCÍNIO -->
-        <section id="view-patrocinio" class="tab-content space-y-6">
-            <div class="flex items-center justify-between">
-                <button onclick="switchTab('home')" class="text-xs font-semibold text-brandPink flex items-center gap-1 hover:underline">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início
-                </button>
-                <h2 class="text-xl font-bold text-textDark">Gestão de Patrocínios</h2>
-            </div>
-
-            <!-- Cotas Cards / Legenda -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#D4AF37]">
-                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Ouro</span>
-                    <h4 class="text-lg font-bold text-textDark mt-1">R$ 1.000,00</h4>
-                    <p class="text-xs text-gray-500 mt-1">Destaque máximo no evento</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#A8A9AD]">
-                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Prata</span>
-                    <h4 class="text-lg font-bold text-textDark mt-1">R$ 700,00</h4>
-                    <p class="text-xs text-gray-500 mt-1">Divulgação em materiais</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-borderPeach shadow-sm border-l-4 border-l-[#E03176]">
-                    <span class="text-xs font-semibold text-gray-400 uppercase">Cota Apoio</span>
-                    <h4 class="text-lg font-bold text-textDark mt-1">R$ 400,00</h4>
-                    <p class="text-xs text-gray-500 mt-1">Apoio cultural e redes</p>
-                </div>
-            </div>
-
-            <!-- Adicionar Patrocinador & Gráfico de Rosca -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm">
-                    <h3 class="text-base font-bold text-textDark mb-4">Cadastrar Patrocinador</h3>
-                    <form id="form-add-patrocinio" onsubmit="adicionarPatrocinador(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Nome da Marca / Empresa</label>
-                            <input type="text" id="patrocinio-nome" required placeholder="Ex: Café Cultural, Loja Bella..." class="w-full px-4 py-2.5 rounded-xl border border-borderPeach focus:outline-none focus:border-brandPink bg-peach/30 text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-600 mb-1">Selecionar Cota</label>
-                            <select id="patrocinio-cota" required class="w-full px-4 py-2.5 rounded-xl border border-borderPeach focus:outline-none focus:border-brandPink bg-peach/30 text-sm">
-                                <option value="ouro">Cota Ouro (R$ 1.000,00)</option>
-                                <option value="prata">Cota Prata (R$ 700,00)</option>
-                                <option value="apoio">Cota Apoio (R$ 400,00)</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full bg-brandPink text-white py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition shadow-sm flex items-center justify-center gap-2">
-                            <i data-lucide="plus" class="w-4 h-4"></i> Registrar Patrocínio
-                        </button>
-                    </form>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm flex flex-col items-center justify-center">
-                    <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Distribuição de Cotas</h3>
-                    <div class="w-full h-48 relative">
-                        <canvas id="patrocinioChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lista de Patrocinadores -->
-            <div class="bg-white rounded-2xl border border-borderPeach shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-borderPeach bg-peach/30 flex justify-between items-center">
-                    <h3 class="text-sm font-bold text-textDark">Marcas Patrocinadoras</h3>
-                    <span id="patrocinio-total-captado" class="text-xs font-semibold text-brandPink">Total: R$ 0,00</span>
-                </div>
-                <div id="lista-patrocinadores-container" class="divide-y divide-gray-100 max-h-60 overflow-y-auto">
-                    <div class="p-6 text-center text-sm text-gray-400">Nenhum patrocinador cadastrado até o momento.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TELA 4: INGRESSOS -->
-        <section id="view-ingressos" class="tab-content space-y-6">
-            <div class="flex items-center justify-between">
-                <button onclick="switchTab('home')" class="text-xs font-semibold text-brandPink flex items-center gap-1 hover:underline">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Início
-                </button>
-                <h2 class="text-xl font-bold text-textDark">Controle de Ingressos</h2>
-            </div>
-
-            <!-- Resumo e Configuração de Ingressos -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Card de Vendas -->
-                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm flex flex-col justify-between space-y-6">
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Ocupação do Espaço</h3>
-                            <span id="ingresso-percentual" class="text-xs font-bold text-brandPink px-2.5 py-1 bg-peach rounded-full">0%</span>
-                        </div>
-                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
-                            <div id="ingresso-barra-progresso" class="bg-brandPink h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-500 mt-2">
-                            <span id="ingresso-qtd-vendida">0 vendidos</span>
-                            <span>Máximo: 100 lugares</span>
-                        </div>
-                    </div>
-
-                    <!-- Controles de Quantidade -->
-                    <div class="bg-peach/30 p-4 rounded-xl border border-borderPeach flex items-center justify-between">
-                        <div>
-                            <span class="text-xs font-medium text-gray-600 block">Ajustar Quantidade</span>
-                            <span class="text-xs text-gray-400">Limite fixo: 100 un.</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="alterarIngressos(-1)" class="w-10 h-10 rounded-xl bg-white border border-borderPeach text-brandPink font-bold text-lg hover:bg-brandPink hover:text-white transition flex items-center justify-center shadow-sm">-</button>
-                            <input type="number" id="ingresso-input-qtd" min="0" max="100" value="0" onchange="atualizarInputIngressos(this.value)" class="w-16 text-center py-2 rounded-xl border border-borderPeach bg-white text-sm font-bold focus:outline-none">
-                            <button onclick="alterarIngressos(1)" class="w-10 h-10 rounded-xl bg-white border border-borderPeach text-brandPink font-bold text-lg hover:bg-brandPink hover:text-white transition flex items-center justify-center shadow-sm">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Configuração de Preço e Receita -->
-                <div class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm flex flex-col justify-between space-y-6">
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Valor Unitário</h3>
-                        <div class="mt-2 relative">
-                            <span class="absolute left-4 top-3 text-sm text-gray-400">R$</span>
-                            <input type="number" step="1" min="0" id="ingresso-valor-unitario" value="50" onchange="atualizarValorUnitario(this.value)" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-borderPeach bg-peach/30 font-bold text-textDark text-lg focus:outline-none focus:border-brandPink">
-                        </div>
-                        <p class="text-xs text-gray-400 mt-1">Altere o valor para recalcular instantaneamente a receita.</p>
-                    </div>
-
-                    <div class="p-4 rounded-xl bg-brandGreen/10 border border-brandGreen/20 flex flex-col">
-                        <span class="text-xs font-semibold text-brandGreen uppercase">Total Arrecadado com Ingressos</span>
-                        <span id="ingresso-total-arrecadado" class="text-2xl font-bold text-textDark mt-1">R$ 0,00</span>
-                        <span class="text-[11px] text-gray-500 mt-1">Integrado automaticamente ao balanço de custos.</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- NAVEGAÇÃO INFERIOR (ESTILO APP MOBILE) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-borderPeach px-4 py-2 shadow-lg z-50">
-        <div class="max-w-md mx-auto grid grid-cols-4 gap-1 text-center">
-            <button onclick="switchTab('home')" id="nav-btn-home" class="flex flex-col items-center justify-center py-1 text-brandPink transition">
-                <i data-lucide="home" class="w-5 h-5"><span></span></i>
-                <span class="text-[10px] font-semibold mt-1">Início</span>
-            </button>
-            <button onclick="switchTab('custos')" id="nav-btn-custos" class="flex flex-col items-center justify-center py-1 text-gray-400 hover:text-brandPink transition">
-                <i data-lucide="wallet" class="w-5 h-5"></i>
-                <span class="text-[10px] font-semibold mt-1">Custos</span>
-            </button>
-            <button onclick="switchTab('patrocinio')" id="nav-btn-patrocinio" class="flex flex-col items-center justify-center py-1 text-gray-400 hover:text-brandPink transition">
-                <i data-lucide="award" class="w-5 h-5"></i>
-                <span class="text-[10px] font-semibold mt-1">Patrocínio</span>
-            </button>
-            <button onclick="switchTab('ingressos')" id="nav-btn-ingressos" class="flex flex-col items-center justify-center py-1 text-gray-400 hover:text-brandPink transition">
-                <i data-lucide="ticket" class="w-5 h-5"></i>
-                <span class="text-[10px] font-semibold mt-1">Ingressos</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- JAVASCRIPT DA APLICAÇÃO -->
-    <script>
-        // Estado Inicial da Aplicação
-        let state = {
-            custos: [],
-            patrocinadores: [],
-            ingressosVendidos: 0,
-            valorUnitarioIngresso: 50
-        };
-
-        // Chave do LocalStorage
-        const STORAGE_KEY = 'show_ainda_bem_financeiro_v1';
-
-        // Carregar dados salvos
-        function carregarDados() {
-            const salvo = localStorage.getItem(STORAGE_KEY);
-            if (salvo) {
-                try {
-                    state = JSON.parse(salvo);
-                } catch (e) {
-                    console.error("Erro ao carregar dados", e);
-                }
-            }
-            document.getElementById('ingresso-input-qtd').value = state.ingressosVendidos;
-            document.getElementById('ingresso-valor-unitario').value = state.valorUnitarioIngresso;
-            atualizarInterface();
-        }
-
-        // Salvar dados
-        function salvarDados() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            atualizarInterface();
-        }
-
-        // Resetar dados
-        function resetarDados() {
-            if (confirm("Deseja realmente apagar todos os dados inseridos e reiniciar o painel?")) {
-                localStorage.removeItem(STORAGE_KEY);
-                state = { custos: [], patrocinadores: [], ingressosVendidos: 0, valorUnitarioIngresso: 50 };
-                document.getElementById('ingresso-input-qtd').value = 0;
-                document.getElementById('ingresso-valor-unitario').value = 50;
-                atualizarInterface();
-            }
-        }
-
-        // Navegação entre Abas (SPA)
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`view-${tabId}`).classList.add('active');
-
-            // Atualizar cor dos botões da barra de navegação inferior
-            const tabs = ['home', 'custos', 'patrocinio', 'ingressos'];
-            tabs.forEach(t => {
-                const btn = document.getElementById(`nav-btn-${t}`);
-                if (btn) {
-                    if (t === tabId) {
-                        btn.className = "flex flex-col items-center justify-center py-1 text-brandPink transition";
-                    } else {
-                        btn.className = "flex flex-col items-center justify-center py-1 text-gray-400 hover:text-brandPink transition";
-                    }
-                }
-            });
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Recriar gráficos se necessário ao abrir aba
-            if (tabId === 'custos' || tabId === 'patrocinio') {
-                atualizarGraficos();
-            }
-        }
-
-        // Formatação Monetária BRL
-        function formatarMoeda(valor) {
-            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-        }
-
-        // --- LÓGICA DE CUSTOS ---
-        function adicionarCusto(e) {
-            e.preventDefault();
-            const desc = document.getElementById('custo-desc').value.trim();
-            const valor = parseFloat(document.getElementById('custo-valor').value);
-
-            if (desc && !isNaN(valor) && valor > 0) {
-                state.custos.push({ id: Date.now(), desc, valor });
-                document.getElementById('form-add-custo').reset();
-                salvarDados();
-            }
-        }
-
-        function removerCusto(id) {
-            state.custos = state.custos.filter(c => c.id !== id);
-            salvarDados();
-        }
-
-        // --- LÓGICA DE PATROCÍNIO ---
-        const cotasValores = { ouro: 1000, prata: 700, apoio: 400 };
-
-        function adicionarPatrocinador(e) {
-            e.preventDefault();
-            const nome = document.getElementById('patrocinio-nome').value.trim();
-            const cota = document.getElementById('patrocinio-cota').value;
-
-            if (nome && cotasValores[cota]) {
-                state.patrocinadores.push({ id: Date.now(), nome, cota, valor: cotasValores[cota] });
-                document.getElementById('form-add-patrocinio').reset();
-                salvarDados();
-            }
-        }
-
-        function removerPatrocinador(id) {
-            state.patrocinadores = state.patrocinadores.filter(p => p.id !== id);
-            salvarDados();
-        }
-
-        // --- LÓGICA DE INGRESSOS ---
-        function alterarIngressos(delta) {
-            let novoValor = state.ingressosVendidos + delta;
-            if (novoValor >= 0 && novoValor <= 100) {
-                state.ingressosVendidos = novoValor;
-                document.getElementById('ingresso-input-qtd').value = novoValor;
-                salvarDados();
-            }
-        }
-
-        function atualizarInputIngressos(val) {
-            let parsed = parseInt(val);
-            if (isNaN(parsed) || parsed < 0) parsed = 0;
-            if (parsed > 100) parsed = 100;
-            state.ingressosVendidos = parsed;
-            document.getElementById('ingresso-input-qtd').value = parsed;
-            salvarDados();
-        }
-
-        function atualizarValorUnitario(val) {
-            let parsed = parseFloat(val);
-            if (isNaN(parsed) || parsed < 0) parsed = 0;
-            state.valorUnitarioIngresso = parsed;
-            salvarDados();
-        }
-
-        // --- CÁLCULOS E ATUALIZAÇÃO GERAL ---
-        function calcularTotais() {
-            const receitaIngressos = state.ingressosVendidos * state.valorUnitarioIngresso;
-            const receitaPatrocinios = state.patrocinadores.reduce((acc, p) => acc + p.valor, 0);
-            const ganhosTotais = receitaIngressos + receitaPatrocinios;
-            const custosTotais = state.custos.reduce((acc, c) => acc + c.valor, 0);
-            const saldoFinal = ganhosTotais - custosTotais;
-
-            return { receitaIngressos, receitaPatrocinios, ganhosTotais, custosTotais, saldoFinal };
-        }
-
-        function atualizarInterface() {
-            const { receitaIngressos, receitaPatrocinios, ganhosTotais, custosTotais, saldoFinal } = calcularTotais();
-
-            // 1. Home / Resumos
-            document.getElementById('home-resumo-custos').innerText = formatarMoeda(custosTotais) + ' em custos';
-            document.getElementById('home-resumo-patrocinio').innerText = formatarMoeda(receitaPatrocinios) + ' captados';
-            document.getElementById('home-resumo-ingressos').innerText = `${state.ingressosVendidos} de 100 vendidos`;
-
-            const homeSaldoValor = document.getElementById('home-saldo-valor');
-            const homeSaldoBadge = document.getElementById('home-saldo-badge');
-            homeSaldoValor.innerText = formatarMoeda(saldoFinal);
-
-            if (saldoFinal >= 0) {
-                homeSaldoValor.className = "text-3xl sm:text-4xl font-bold text-brandGreen";
-                homeSaldoBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-brandGreen/10 text-brandGreen";
-                homeSaldoBadge.innerText = "Lucro Previsto";
-            } else {
-                homeSaldoValor.className = "text-3xl sm:text-4xl font-bold text-brandPink";
-                homeSaldoBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-brandPink/10 text-brandPink";
-                homeSaldoBadge.innerText = "Atenção / Prejuízo";
-            }
-
-            // 2. Custos View
-            document.getElementById('lbl-ganhos-totais').innerText = formatarMoeda(ganhosTotais);
-            document.getElementById('lbl-custos-totais').innerText = formatarMoeda(custosTotais);
-
-            const statusTitulo = document.getElementById('custos-status-titulo');
-            const statusValor = document.getElementById('custos-status-valor');
-            const statusBanner = document.getElementById('custos-status-banner');
-
-            if (saldoFinal >= 0) {
-                statusBanner.className = "mt-3 p-4 rounded-xl bg-brandGreen/10 border border-brandGreen/20 text-brandGreen";
-                statusTitulo.innerText = "Status: Lucro Estimado";
-                statusValor.innerText = formatarMoeda(saldoFinal);
-            } else {
-                statusBanner.className = "mt-3 p-4 rounded-xl bg-brandPink/10 border border-brandPink/20 text-brandPink";
-                statusTitulo.innerText = "Status: Atenção (Prejuízo)";
-                statusValor.innerText = formatarMoeda(saldoFinal);
-            }
-
-            // Renderizar Lista de Custos
-            const listaCustosEl = document.getElementById('lista-custos-container');
-            if (state.custos.length === 0) {
-                listaCustosEl.innerHTML = `<div class="p-6 text-center text-sm text-gray-400">Nenhum custo cadastrado até o momento.</div>`;
-            } else {
-                listaCustosEl.innerHTML = state.custos.map(c => `
-                    <div class="px-6 py-3.5 flex justify-between items-center text-sm">
-                        <div>
-                            <strong class="text-textDark block">${c.desc}</strong>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="font-bold text-brandPink">${formatarMoeda(c.valor)}</span>
-                            <button onclick="removerCusto(${c.id})" class="text-gray-400 hover:text-brandPink transition">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // 3. Patrocínio View
-            document.getElementById('patrocinio-total-captado').innerText = `Total: ${formatarMoeda(receitaPatrocinios)}`;
-            const listaPatrocinadoresEl = document.getElementById('lista-patrocinadores-container');
-            if (state.patrocinadores.length === 0) {
-                listaPatrocinadoresEl.innerHTML = `<div class="p-6 text-center text-sm text-gray-400">Nenhum patrocinador cadastrado até o momento.</div>`;
-            } else {
-                listaPatrocinadoresEl.innerHTML = state.patrocinadores.map(p => {
-                    let badgeColor = p.cota === 'ouro' ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30' : p.cota === 'prata' ? 'bg-[#A8A9AD]/10 text-gray-600 border-[#A8A9AD]/30' : 'bg-brandPink/10 text-brandPink border-brandPink/30';
-                    return `
-                        <div class="px-6 py-3.5 flex justify-between items-center text-sm">
-                            <div class="flex items-center gap-3">
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${badgeColor}">${p.cota}</span>
-                                <strong class="text-textDark">${p.nome}</strong>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <span class="font-bold text-textDark">${formatarMoeda(p.valor)}</span>
-                                <button onclick="removerPatrocinador(${p.id})" class="text-gray-400 hover:text-brandPink transition">
-                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            // 4. Ingressos View
-            const percentual = Math.round((state.ingressosVendidos / 100) * 100);
-            document.getElementById('ingresso-percentual').innerText = `${percentual}%`;
-            document.getElementById('ingresso-barra-progresso').style.width = `${percentual}%`;
-            document.getElementById('ingresso-qtd-vendida').innerText = `${state.ingressosVendidos} vendidos`;
-            document.getElementById('ingresso-total-arrecadado').innerText = formatarMoeda(receitaIngressos);
-
-            // Atualizar Ícones Lucide
-            lucide.createIcons();
-
-            // Atualizar Gráficos se instanciados
-            atualizarGraficos();
-        }
-
-        // --- GRÁFICOS (CHART.JS) ---
-        let financeChartInstance = null;
-        let patrocinioChartInstance = null;
-
-        function atualizarGraficos() {
-            const { ganhosTotais, custosTotais } = calcularTotais();
-
-            // Gráfico de Custos vs Ganhos (Bar Chart)
-            const ctxFinance = document.getElementById('financeChart');
-            if (ctxFinance) {
-                if (financeChartInstance) financeChartInstance.destroy();
-                financeChartInstance = new Chart(ctxFinance, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Ganhos Totais', 'Custos Totais'],
-                        datasets: [{
-                            data: [ganhosTotais, custosTotais],
-                            backgroundColor: ['#5B8C5A', '#E03176'],
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true } }
-                    }
-                });
-            }
-
-            // Gráfico de Rosca de Patrocínios (Doughnut Chart)
-            const countOuro = state.patrocinadores.filter(p => p.cota === 'ouro').length;
-            const countPrata = state.patrocinadores.filter(p => p.cota === 'prata').length;
-            const countApoio = state.patrocinadores.filter(p => p.cota === 'apoio').length;
-
-            const ctxPatrocinio = document.getElementById('patrocinioChart');
-            if (ctxPatrocinio) {
-                if (patrocinioChartInstance) patrocinioChartInstance.destroy();
-                patrocinioChartInstance = new Chart(ctxPatrocinio, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Ouro', 'Prata', 'Apoio'],
-                        datasets: [{
-                            data: [countOuro, countPrata, countApoio],
-                            backgroundColor: ['#D4AF37', '#A8A9AD', '#E03176'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Inicializar aplicação ao carregar a página
-        window.onload = () => {
-            carregarDados();
-        };
-    </script>
-</body>
-</html>
