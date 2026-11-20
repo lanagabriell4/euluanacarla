@@ -33,7 +33,7 @@
     <main class="max-w-4xl mx-auto mt-6 px-4">
 
         <!-- ================= TELA INICIAL (HOME) ================= -->
-        <div id="view-home" class="space-y-6">
+        <section id="view-home" class="space-y-6">
             <!-- Capa, Frase e Resumo Lado a Lado -->
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
@@ -100,11 +100,11 @@
                     <span class="text-xs text-gray-500">Controle de vendas (até 100)</span>
                 </button>
             </div>
-        </div>
+        </section>
 
 
         <!-- ================= ABA 1: CUSTOS ================= -->
-        <div id="view-custos" class="hidden space-y-6">
+        <section id="view-custos" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
                 <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Gerenciamento de Custos</h2>
@@ -142,11 +142,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
 
         <!-- ================= ABA 2: PATROCÍNIO ================= -->
-        <div id="view-patrocinio" class="hidden space-y-6">
+        <section id="view-patrocinio" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
                 <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Cotas de Patrocínio</h2>
@@ -161,4 +161,222 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Cota de Patrocínio</label>
-                        <select id="pat-cota" class
+                        <select id="pat-cota" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30 font-medium">
+                            <option value="ouro">Cota Ouro (R$ 1.000,00)</option>
+                            <option value="prata">Cota Prata (R$ 700,00)</option>
+                            <option value="apoio">Cota Apoio (R$ 400,00)</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3">
+                        <button type="submit" class="w-full bg-art-pink text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all shadow-sm cursor-pointer">Registrar Patrocínio</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Gráfico Redondo de Cotas com Cores Específicas e Lista -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Quantidade por Cota</h3>
+                    <div class="relative h-56 w-full max-w-xs">
+                        <canvas id="patrocinioChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Patrocinadores Confirmados</h3>
+                    <div id="lista-patrocinadores" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                        <p class="text-gray-400 text-sm italic">Nenhum patrocinador cadastrado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= ABA 3: INGRESSOS ================= -->
+        <section id="view-ingressos" class="hidden space-y-6">
+            <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
+                <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
+                <h2 class="text-xl font-bold art-pink">Controle de Ingressos</h2>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Capacidade Máxima: Até 100 Ingressos</h3>
+                <p class="text-xs text-gray-500 mb-6">Adicione novas vendas instantaneamente para atualizar o caixa e os gráficos em tempo real.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Preço do Ingresso Unitário (R$)</label>
+                        <input type="number" step="0.01" id="ingresso-preco" value="50.00" onchange="salvarConfigIngressos()" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30 font-bold text-lg text-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">+ Adicionar Vendas Agora (Qtd)</label>
+                        <div class="flex gap-2">
+                            <input type="number" min="1" max="100" id="nova-venda-qtd" placeholder="Qtd vendida" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30 font-bold text-lg text-art-pink">
+                            <button type="button" onclick="adicionarVendas()" class="bg-art-pink text-white px-5 py-2.5 rounded-xl font-bold hover:opacity-90 cursor-pointer shadow-sm">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de Progresso da Capacidade e Total Geral Vendido -->
+                <div class="bg-peach-light p-5 rounded-xl border border-orange-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold uppercase text-gray-700">Total de Ingressos Vendidos Até o Momento</span>
+                        <span id="texto-progresso" class="text-sm font-extrabold text-art-pink">0 / 100 ingressos</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div id="barra-progresso" class="bg-art-pink h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-orange-200">
+                        <span class="text-sm font-medium text-gray-600">Total Arrecadado com Ingressos:</span>
+                        <span id="total-ingressos-valor" class="text-xl font-bold text-emerald-600">R$ 0,00</span>
+                    </div>
+                    <div class="text-right">
+                        <button type="button" onclick="resetarIngressos()" class="text-xs text-rose-600 font-semibold hover:underline cursor-pointer">Zerar contagem de ingressos</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script de Lógica, Gráficos Circulares e Frases Aleatórias -->
+    <script>
+        // Frases de autoconfiança e positividade para o show (sem emojis)
+        const frasesPositivas = [
+            "Ainda bem que você acreditou nesse sonho! O espetáculo vai ser inesquecível.",
+            "Sua arte ilumina o mundo. Cada passo dado nos traz mais perto do sucesso absoluto.",
+            "Confie no seu talento e na sua dedicação. Este show já nasceu brilhando.",
+            "A energia da Marisa e a sua voz vão emocionar a todos. Vai dar tudo certo.",
+            "Organização impecável e paixão pelo que faz: a receita perfeita para lotar o teatro.",
+            "Cada aplauso será o reflexo de todo o seu esforço e amor pela música."
+        ];
+
+        // Definir frase aleatória ao carregar/atualizar a página (sem emojis)
+        document.getElementById('frase-motivacional').innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
+
+        // Dados globais salvos no localStorage
+        let dados = JSON.parse(localStorage.getItem('show_aindabem_data')) || {
+            custos: [],
+            patrocinios: [],
+            precoIngresso: 50.00,
+            qtdIngressos: 0
+        };
+
+        let homeChartInstance = null;
+        let custosChartInstance = null;
+        let patrocinioChartInstance = null;
+
+        // Alternar entre Telas / Abas com correção de exibição
+        function switchView(viewId) {
+            const views = ['home', 'custos', 'patrocinio', 'ingressos'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) {
+                    if (v === viewId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Atualiza o gráfico específico da aba aberta após renderizar
+            setTimeout(() => {
+                if (viewId === 'home') atualizarGraficoHome();
+                if (viewId === 'custos') atualizarGraficoCustos();
+                if (viewId === 'patrocinio') atualizarGraficoPatrocinios();
+            }, 50);
+        }
+
+        // Cálculos Financeiros
+        function calcularTotais() {
+            const totalCustos = dados.custos.reduce((acc, item) => acc + Number(item.valor), 0);
+            const totalPatrocinios = dados.patrocinios.reduce((acc, item) => {
+                if (item.cota === 'ouro') return acc + 1000;
+                if (item.cota === 'prata') return acc + 700;
+                if (item.cota === 'apoio') return acc + 400;
+                return acc;
+            }, 0);
+            const totalIngressos = Number(dados.qtdIngressos) * Number(dados.precoIngresso);
+            const totalReceitas = totalPatrocinios + totalIngressos;
+            const saldo = totalReceitas - totalCustos;
+
+            return { totalCustos, totalPatrocinios, totalIngressos, totalReceitas, saldo };
+        }
+
+        // Atualizar Interface Geral
+        function atualizarUI() {
+            const totais = calcularTotais();
+
+            // Home / Resumos
+            document.getElementById('home-receitas').innerText = `R$ ${totais.totalReceitas.toFixed(2)}`;
+            document.getElementById('home-custos').innerText = `R$ ${totais.totalCustos.toFixed(2)}`;
+            const elSaldoHome = document.getElementById('home-saldo');
+            elSaldoHome.innerText = `R$ ${totais.saldo.toFixed(2)}`;
+            elSaldoHome.className = `text-sm md:text-base font-bold mt-0.5 ${totais.saldo >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+
+            // Ingressos UI
+            document.getElementById('ingresso-preco').value = dados.precoIngresso;
+            document.getElementById('total-ingressos-valor').innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
+            document.getElementById('texto-progresso').innerText = `${dados.qtdIngressos} / 100 ingressos`;
+            document.getElementById('barra-progresso').style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
+
+            renderizarListas();
+            salvarStorage();
+        }
+
+        // Salvar LocalStorage
+        function salvarStorage() {
+            localStorage.setItem('show_aindabem_data', JSON.stringify(dados));
+        }
+
+        // Gestão de Custos
+        document.getElementById('form-custo').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const desc = document.getElementById('custo-desc').value;
+            const valor = parseFloat(document.getElementById('custo-valor').value);
+
+            dados.custos.push({ id: Date.now(), desc, valor });
+            document.getElementById('custo-desc').value = '';
+            document.getElementById('custo-valor').value = '';
+            atualizarUI();
+            atualizarGraficoCustos();
+            atualizarGraficoHome();
+        });
+
+        function excluirCusto(id) {
+            dados.custos = dados.custos.filter(item => item.id !== id);
+            atualizarUI();
+            atualizarGraficoCustos();
+            atualizarGraficoHome();
+        }
+
+        // Gestão de Patrocínios
+        document.getElementById('form-patrocinio').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const marca = document.getElementById('pat-marca').value;
+            const cota = document.getElementById('pat-cota').value;
+
+            dados.patrocinios.push({ id: Date.now(), marca, cota });
+            document.getElementById('pat-marca').value = '';
+            atualizarUI();
+            atualizarGraficoPatrocinios();
+            atualizarGraficoHome();
+        });
+
+        function excluirPatrocinio(id) {
+            dados.patrocinios = dados.patrocinios.filter(item => item.id !== id);
+            atualizarUI();
+            atualizarGraficoPatrocinios();
+            atualizarGraficoHome();
+        }
+
+        // Configuração e Adição de Ingressos
+        function salvarConfigIngressos() {
+            dados.precoIngresso = parseFloat(document.getElementById('ingresso-preco').value) || 0;
+            atualizarUI();
+            atualizarGraficoHome();
+        }
+
+        function adicionarVendas() {
+            const qtdAdicionar = parseInt(document.getElementById('
