@@ -57,16 +57,6 @@
         .tab-content.active {
             display: block;
         }
-        /* Formato orgânico fluído estilo mancha */
-        .organic-shape-1 {
-            border-radius: 2.5rem 1.8rem 3rem 1.5rem / 2rem 2.8rem 1.6rem 3rem;
-        }
-        .organic-shape-2 {
-            border-radius: 1.8rem 3rem 2.2rem 2.5rem / 2.5rem 1.8rem 3rem 2.2rem;
-        }
-        .organic-shape-3 {
-            border-radius: 3rem 2rem 1.5rem 2.8rem / 1.8rem 2.5rem 2.8rem 1.5rem;
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6 pt-6">
@@ -76,34 +66,12 @@
 
         <!-- TELA 1: HOME / MENU PRINCIPAL -->
         <section id="view-home" class="tab-content active space-y-6">
-            <!-- Cabeçalho e Descrição -->
-            <div class="space-y-2">
-                <h1 class="text-3xl sm:text-4xl font-bold text-textDark tracking-wide">
-                    Controle total do seu <span class="art-title text-brandPink text-4xl sm:text-5xl font-normal ml-1">espetáculo</span>
-                </h1>
-                <p class="text-sm text-gray-600">
-                    Acompanhe despesas, gerencie as cotas de patrocínio e monitore a venda dos 100 ingressos em tempo real.
-                </p>
-            </div>
-
-            <!-- Cards de Resumo Rápido (Total Arrecadado e Total Custos) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Arrecadado</span>
-                    <span id="home-total-arrecadado" class="text-3xl font-bold text-brandGreen mt-2">R$ 0,00</span>
-                </div>
-                <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col justify-between">
-                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Custos</span>
-                    <span id="home-total-custos" class="text-3xl font-bold text-brandPink mt-2">R$ 0,00</span>
-                </div>
-            </div>
-
             <!-- Termômetro Rápido / Saldo -->
             <div class="bg-white rounded-2xl p-6 border border-borderPeach shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                     <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Balanço Atual da Produção</h2>
                     <div id="home-saldo-container" class="flex items-baseline gap-2 mt-1">
-                        <span id="home-saldo-valor" class="text-2xl sm:text-3xl font-bold">R$ 0,00</span>
+                        <span id="home-saldo-valor" class="text-3xl sm:text-4xl font-bold">R$ 0,00</span>
                         <span id="home-saldo-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">Calculando...</span>
                     </div>
                 </div>
@@ -112,60 +80,52 @@
                 </button>
             </div>
 
-            <!-- Cards de Navegação Rápida (Com bordas orgânicas e ícone ao lado do título) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
+            <!-- Cards de Acesso Rápido -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Card Custos -->
-                <div onclick="switchTab('custos')" class="bg-white p-6 organic-shape-1 border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('custos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-3.5 mb-3">
-                            <div class="w-12 h-12 rounded-2xl bg-peach flex items-center justify-center text-brandPink group-hover:scale-110 transition shrink-0 shadow-sm">
-                                <i data-lucide="wallet" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-textDark tracking-wide">CUSTOS</h3>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="wallet" class="w-6 h-6"></i>
                         </div>
-                        <p class="text-xs text-gray-500 pl-1">Lançar despesas e comparar lucros vs. gastos</p>
+                        <h3 class="text-lg font-bold text-textDark">Custos & Despesas</h3>
+                        <p class="text-xs text-gray-500 mt-1">Controle de gastos, balanço e gráfico financeiro.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-semibold text-brandPink pl-1">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
                         <span id="home-resumo-custos">R$ 0,00 em custos</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
 
                 <!-- Card Patrocínio -->
-                <div onclick="switchTab('patrocinio')" class="bg-white p-6 organic-shape-2 border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('patrocinio')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-3.5 mb-3">
-                            <div class="w-12 h-12 rounded-2xl bg-peach flex items-center justify-center text-brandPink group-hover:scale-110 transition shrink-0 shadow-sm">
-                                <i data-lucide="award" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-textDark tracking-wide">PATROCÍNIO</h3>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="award" class="w-6 h-6"></i>
                         </div>
-                        <p class="text-xs text-gray-500 pl-1">Cotas Ouro, Prata e Apoio com marcas</p>
+                        <h3 class="text-lg font-bold text-textDark">Patrocínio</h3>
+                        <p class="text-xs text-gray-500 mt-1">Cotas Ouro, Prata e Apoio com marcas associadas.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-semibold text-brandPink pl-1">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
                         <span id="home-resumo-patrocinio">R$ 0,00 captados</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
 
                 <!-- Card Ingressos -->
-                <div onclick="switchTab('ingressos')" class="bg-brandPink text-white p-6 organic-shape-3 shadow-md hover:opacity-95 transition cursor-pointer group flex flex-col justify-between">
+                <div onclick="switchTab('ingressos')" class="bg-white p-6 rounded-2xl border border-borderPeach shadow-sm hover:border-brandPink transition cursor-pointer group flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-3.5 mb-3">
-                            <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-white group-hover:scale-110 transition shrink-0 shadow-sm">
-                                <i data-lucide="ticket" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white tracking-wide">INGRESSOS</h3>
+                        <div class="w-12 h-12 rounded-xl bg-peach flex items-center justify-center text-brandPink mb-4 group-hover:scale-110 transition">
+                            <i data-lucide="ticket" class="w-6 h-6"></i>
                         </div>
-                        <p class="text-xs text-peach/90 pl-1">Confirmar vendas (limite de 100 ingressos)</p>
+                        <h3 class="text-lg font-bold text-textDark">Ingressos</h3>
+                        <p class="text-xs text-gray-500 mt-1">Vendas até o limite de 100 lugares e receita automática.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/20 flex justify-between items-center text-xs font-semibold text-white pl-1">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-sm font-semibold text-brandPink">
                         <span id="home-resumo-ingressos">0 de 100 vendidos</span>
                         <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -535,9 +495,6 @@
         function atualizarInterface() {
             const { receitaIngressos, receitaPatrocinios, ganhosTotais, custosTotais, saldoFinal } = calcularTotais();
 
-            document.getElementById('home-total-arrecadado').innerText = formatarMoeda(ganhosTotais);
-            document.getElementById('home-total-custos').innerText = formatarMoeda(custosTotais);
-
             document.getElementById('home-resumo-custos').innerText = formatarMoeda(custosTotais) + ' em custos';
             document.getElementById('home-resumo-patrocinio').innerText = formatarMoeda(receitaPatrocinios) + ' captados';
             document.getElementById('home-resumo-ingressos').innerText = `${state.ingressosVendidos} de 100 vendidos`;
@@ -547,11 +504,11 @@
             homeSaldoValor.innerText = formatarMoeda(saldoFinal);
 
             if (saldoFinal >= 0) {
-                homeSaldoValor.className = "text-2xl sm:text-3xl font-bold text-brandGreen";
+                homeSaldoValor.className = "text-3xl sm:text-4xl font-bold text-brandGreen";
                 homeSaldoBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-brandGreen/10 text-brandGreen";
                 homeSaldoBadge.innerText = "Lucro Previsto";
             } else {
-                homeSaldoValor.className = "text-2xl sm:text-3xl font-bold text-brandPink";
+                homeSaldoValor.className = "text-3xl sm:text-4xl font-bold text-brandPink";
                 homeSaldoBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-brandPink/10 text-brandPink";
                 homeSaldoBadge.innerText = "Atenção / Prejuízo";
             }
