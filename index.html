@@ -123,7 +123,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Custos vs Receitas</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Custos vs Ganhos (Lucro)</h3>
+                    <p class="text-xs text-gray-500 mb-4 w-full text-left">Comparativo direto para avaliar a saúde financeira.</p>
                     <div class="relative h-56 w-full max-w-xs">
                         <canvas id="custosChart"></canvas>
                     </div>
@@ -146,7 +147,8 @@
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Adicionar Marca Patrocinadora</h3>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Adicionar Marca Patrocinadora</h3>
+                <p class="text-xs text-gray-500 mb-4">Cota Ouro: R$ 1.000,00 | Cota Prata: R$ 700,00 | Cota Apoio: R$ 400,00</p>
                 <form id="form-patrocinio" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Nome da Marca / Empresa</label>
@@ -169,6 +171,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 flex flex-col items-center justify-center">
                     <h3 class="text-lg font-bold text-gray-800 mb-2 w-full text-left">Quantidade por Cota</h3>
+                    <p class="text-xs text-gray-500 mb-4 w-full text-left">Ouro (Dourado), Prata (Prateado) e Apoio (Rosa).</p>
                     <div class="relative h-56 w-full max-w-xs">
                         <canvas id="patrocinioChart"></canvas>
                     </div>
@@ -192,7 +195,7 @@
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
                 <h3 class="text-lg font-bold text-gray-800 mb-2">Capacidade Máxima: Até 100 Ingressos</h3>
-                <p class="text-xs text-gray-500 mb-6">Adicione novas vendas instantaneamente para atualizar o caixa e os gráficos em tempo real.</p>
+                <p class="text-xs text-gray-500 mb-6">Confirme as vendas abaixo para atualizar instantaneamente o caixa e os gráficos de custos e lucros.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
@@ -200,7 +203,7 @@
                         <input type="number" step="0.01" id="ingresso-preco" value="50.00" onchange="salvarConfigIngressos()" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30 font-bold text-lg text-emerald-600">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">+ Adicionar Vendas Agora (Qtd)</label>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">+ Confirmar Vendas (Qtd)</label>
                         <div class="flex gap-2">
                             <input type="number" min="1" max="100" id="nova-venda-qtd" placeholder="Qtd vendida" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30 font-bold text-lg text-art-pink">
                             <button type="button" onclick="adicionarVendas()" class="bg-art-pink text-white px-5 py-2.5 rounded-xl font-bold hover:opacity-90 cursor-pointer shadow-sm">Salvar</button>
@@ -240,13 +243,11 @@
             "Cada aplauso será o reflexo de todo o seu esforço e amor pela música."
         ];
 
-        // Frase aleatória segura
         const elFrase = document.getElementById('frase-motivacional');
         if (elFrase) {
             elFrase.innerText = frasesPositivas[Math.floor(Math.random() * frasesPositivas.length)];
         }
 
-        // Recuperação segura do localStorage
         let dados = { custos: [], patrocinios: [], precoIngresso: 50.00, qtdIngressos: 0 };
         try {
             const saved = localStorage.getItem('show_aindabem_data');
@@ -263,7 +264,6 @@
         let custosChartInstance = null;
         let patrocinioChartInstance = null;
 
-        // Função de navegação blindada contra falhas
         window.switchView = function(viewId) {
             const views = ['home', 'custos', 'patrocinio', 'ingressos'];
             views.forEach(v => {
@@ -278,7 +278,6 @@
             });
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Renderiza o gráfico da aba ativa com segurança
             setTimeout(() => {
                 if (viewId === 'home') atualizarGraficoHome();
                 if (viewId === 'custos') atualizarGraficoCustos();
@@ -323,7 +322,10 @@
             if (elTotalIng) elTotalIng.innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
 
             const elProgText = document.getElementById('texto-progresso');
-            if (elProgText) elProgText.innerText = `${dados.qtdIngressos} / 100 ingressos`;  const elBarra = document.getElementById('barra-progresso'); if (elBarra) elBarra.style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
+            if (elProgText) elProgText.innerText = `${dados.qtdIngressos} / 100 ingressos`;
+
+            const elBarra = document.getElementById('barra-progresso');
+            if (elBarra) elBarra.style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
 
             renderizarListas();
             salvarStorage();
@@ -337,7 +339,6 @@
             }
         }
 
-        // Listener seguro para o formulário de custos
         const formCusto = document.getElementById('form-custo');
         if (formCusto) {
             formCusto.addEventListener('submit', (e) => {
@@ -365,7 +366,6 @@
             atualizarGraficoHome();
         };
 
-        // Listener seguro para o formulário de patrocínios
         const formPat = document.getElementById('form-patrocinio');
         if (formPat) {
             formPat.addEventListener('submit', (e) => {
@@ -415,6 +415,7 @@
             vendaInput.value = '';
             atualizarUI();
             atualizarGraficoHome();
+            atualizarGraficoCustos();
         };
 
         window.resetarIngressos = function() {
@@ -422,11 +423,9 @@
                 dados.qtdIngressos = 0;
                 atualizarUI();
                 atualizarGraficoHome();
+                atualizarGraficoCustos();
             }
         };
 
         function renderizarListas() {
-            const divCustos = document.getElementById('lista-custos');
-            if (divCustos) {
-                if (!dados.custos || dados.custos.length === 0) {
-                    divCustos.innerHTML = `<p class="text-gray-400
+            const div
