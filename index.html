@@ -34,58 +34,67 @@
 
         <!-- ================= TELA INICIAL (HOME) ================= -->
         <section id="view-home" class="space-y-6">
-            <!-- Capa, Frase e Mensagem Motivacional -->
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100 text-center space-y-4">
-                <div class="w-full max-w-md mx-auto h-72 md:h-96 rounded-2xl overflow-hidden shadow-md border border-orange-100 bg-peach-light flex items-center justify-center">
-                    <img src="teste3.jpg" alt="Arte do Show - Ainda Bem!" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=60';">
-                </div>
-                <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold art-pink tracking-tight">Controlando o meu espetáculo!</h1>
-                    <p id="frase-motivacional" class="text-gray-600 font-medium italic mt-2 bg-peach-light py-2 px-4 rounded-xl inline-block border border-orange-200">✨ Carregando energia positiva...</p>
-                    <p class="text-xs text-gray-400 mt-1">Ainda Bem! • Luana canta Marisa (19.12 às 17:30)</p>
-                </div>
-            </div>
+            <!-- Capa, Frase e Resumo Lado a Lado (para minimizar espaços) -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <!-- Imagem do Show -->
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="w-full h-64 md:h-72 rounded-2xl overflow-hidden shadow-md border border-orange-100 bg-peach-light flex items-center justify-center">
+                            <img src="teste3.jpg" alt="Arte do Show - Ainda Bem!" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=60';">
+                        </div>
+                    </div>
+                    
+                    <!-- Textos e Resumos Financeiros ao Lado -->
+                    <div class="md:col-span-7 space-y-4 text-center md:text-left">
+                        <div>
+                            <h1 class="text-2xl md:text-3xl font-extrabold art-pink tracking-tight">Controlando o meu espetáculo!</h1>
+                            <p id="frase-motivacional" class="text-gray-600 text-xs md:text-sm font-medium italic mt-2 bg-peach-light py-2 px-3 rounded-xl inline-block border border-orange-200">✨ Carregando energia positiva...</p>
+                            <p class="text-[11px] text-gray-400 mt-1">Ainda Bem! • Luana canta Marisa (19.12 às 17:30)</p>
+                        </div>
 
-            <!-- Resumo Financeiro Rápido -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-orange-100 text-center">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-medium">Receitas Totais</p>
-                    <p id="home-receitas" class="text-xl font-bold text-emerald-600 mt-1">R$ 0,00</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-orange-100 text-center">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-medium">Custos Totais</p>
-                    <p id="home-custos" class="text-xl font-bold text-rose-600 mt-1">R$ 0,00</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-orange-100 text-center">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-medium">Situação Atual (Saldo)</p>
-                    <p id="home-saldo" class="text-xl font-bold mt-1">R$ 0,00</p>
+                        <!-- Cards de Resumo Compactos -->
+                        <div class="grid grid-cols-3 gap-2 pt-1">
+                            <div class="bg-peach-light/50 p-3 rounded-xl border border-orange-100 text-center">
+                                <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Receitas</p>
+                                <p id="home-receitas" class="text-sm md:text-base font-bold text-emerald-600 mt-0.5">R$ 0,00</p>
+                            </div>
+                            <div class="bg-peach-light/50 p-3 rounded-xl border border-orange-100 text-center">
+                                <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Custos</p>
+                                <p id="home-custos" class="text-sm md:text-base font-bold text-rose-600 mt-0.5">R$ 0,00</p>
+                            </div>
+                            <div class="bg-peach-light/50 p-3 rounded-xl border border-orange-100 text-center">
+                                <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Situação</p>
+                                <p id="home-saldo" class="text-sm md:text-base font-bold mt-0.5">R$ 0,00</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Gráfico Geral na Primeira Página para Entender a Situação do Momento -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100">
                 <h3 class="text-lg font-bold text-gray-800 mb-2">Panorama do Momento (Receitas vs Custos)</h3>
-                <p class="text-xs text-gray-500 mb-4">Veja em tempo real se o espetáculo está gerando lucro ou prejuízo.</p>
-                <div class="relative h-64 w-full">
+                <p class="text-xs text-gray-500 mb-4">Veja em tempo real se o espetáculo está gerando lucro ou prejuízo[cite: 3].</p>
+                <div class="relative h-60 w-full">
                     <canvas id="homeChart"></canvas>
                 </div>
             </div>
 
-            <!-- 3 Botões Principais de Navegação -->
+            <!-- 3 Botões Principais de Navegação Corrigidos -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                <button onclick="switchView('custos')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group">
+                <button type="button" onclick="switchView('custos')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group cursor-pointer">
                     <span class="text-3xl">💸</span>
                     <span class="text-xl font-bold text-gray-800 group-hover:text-art-pink">CUSTOS</span>
                     <span class="text-xs text-gray-500">Adicionar e acompanhar gastos</span>
                 </button>
 
-                <button onclick="switchView('patrocinio')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group">
+                <button type="button" onclick="switchView('patrocinio')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group cursor-pointer">
                     <span class="text-3xl">🤝</span>
                     <span class="text-xl font-bold text-gray-800 group-hover:text-art-pink">PATROCÍNIO</span>
                     <span class="text-xs text-gray-500">Cotas Ouro, Prata e Apoio</span>
                 </button>
 
-                <button onclick="switchView('ingressos')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group">
+                <button type="button" onclick="switchView('ingressos')" class="bg-white hover:bg-peach-light border-2 border-orange-200 p-6 rounded-2xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 group cursor-pointer">
                     <span class="text-3xl">🎟️</span>
                     <span class="text-xl font-bold text-gray-800 group-hover:text-art-pink">INGRESSOS</span>
                     <span class="text-xs text-gray-500">Controle de vendas (até 100)</span>
@@ -97,7 +106,7 @@
         <!-- ================= ABA 1: CUSTOS ================= -->
         <section id="view-custos" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
-                <button onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1">← Voltar ao Início</button>
+                <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Gerenciamento de Custos</h2>
             </div>
 
@@ -113,7 +122,7 @@
                         <input type="number" step="0.01" id="custo-valor" required placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-pink-500 bg-peach-light/30">
                     </div>
                     <div class="md:col-span-3">
-                        <button type="submit" class="w-full bg-art-pink text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all shadow-sm">Adicionar Custo</button>
+                        <button type="submit" class="w-full bg-art-pink text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all shadow-sm cursor-pointer">Adicionar Custo</button>
                     </div>
                 </form>
             </div>
@@ -139,7 +148,7 @@
         <!-- ================= ABA 2: PATROCÍNIO ================= -->
         <section id="view-patrocinio" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
-                <button onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1">← Voltar ao Início</button>
+                <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Cotas de Patrocínio</h2>
             </div>
 
@@ -159,7 +168,7 @@
                         </select>
                     </div>
                     <div class="md:col-span-3">
-                        <button type="submit" class="w-full bg-art-pink text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all shadow-sm">Registrar Patrocínio</button>
+                        <button type="submit" class="w-full bg-art-pink text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all shadow-sm cursor-pointer">Registrar Patrocínio</button>
                     </div>
                 </form>
             </div>
@@ -185,7 +194,7 @@
         <!-- ================= ABA 3: INGRESSOS ================= -->
         <section id="view-ingressos" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-orange-100">
-                <button onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1">← Voltar ao Início</button>
+                <button type="button" onclick="switchView('home')" class="text-sm font-bold text-gray-600 hover:text-art-pink flex items-center gap-1 cursor-pointer">← Voltar ao Início</button>
                 <h2 class="text-xl font-bold art-pink">Controle de Ingressos</h2>
             </div>
 
@@ -243,3 +252,263 @@
             custos: [],
             patrocinios: [],
             precoIngresso: 50.00,
+            qtdIngressos: 0
+        };
+
+        let homeChartInstance = null;
+        let custosChartInstance = null;
+        let patrocinioChartInstance = null;
+
+        // Alternar entre Telas / Abas com correção de eventos
+        function switchView(viewId) {
+            ['home', 'custos', 'patrocinio', 'ingressos'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (viewId === 'home') atualizarGraficoHome();
+            if (viewId === 'custos') atualizarGraficoCustos();
+            if (viewId === 'patrocinio') atualizarGraficoPatrocinios();
+        }
+
+        // Cálculos Financeiros
+        function calcularTotais() {
+            const totalCustos = dados.custos.reduce((acc, item) => acc + Number(item.valor), 0);
+            const totalPatrocinios = dados.patrocinios.reduce((acc, item) => {
+                if (item.cota === 'ouro') return acc + 1000;
+                if (item.cota === 'prata') return acc + 700;
+                if (item.cota === 'apoio') return acc + 400;
+                return acc;
+            }, 0);
+            const totalIngressos = Number(dados.qtdIngressos) * Number(dados.precoIngresso);
+            const totalReceitas = totalPatrocinios + totalIngressos;
+            const saldo = totalReceitas - totalCustos;
+
+            return { totalCustos, totalPatrocinios, totalIngressos, totalReceitas, saldo };
+        }
+
+        // Atualizar Interface Geral
+        function atualizarUI() {
+            const totais = calcularTotais();
+
+            // Home / Resumos
+            document.getElementById('home-receitas').innerText = `R$ ${totais.totalReceitas.toFixed(2)}`;
+            document.getElementById('home-custos').innerText = `R$ ${totais.totalCustos.toFixed(2)}`;
+            const elSaldoHome = document.getElementById('home-saldo');
+            elSaldoHome.innerText = `R$ ${totais.saldo.toFixed(2)}`;
+            elSaldoHome.className = `text-sm md:text-base font-bold mt-0.5 ${totais.saldo >= 0 ? 'text-emerald-600' : 'text-rose-600'}`;
+
+            // Ingressos UI
+            document.getElementById('ingresso-preco').value = dados.precoIngresso;
+            document.getElementById('ingresso-qtd').value = dados.qtdIngressos;
+            document.getElementById('total-ingressos-valor').innerText = `R$ ${totais.totalIngressos.toFixed(2)}`;
+            document.getElementById('texto-progresso').innerText = `${dados.qtdIngressos} / 100 ingressos`;
+            document.getElementById('barra-progresso').style.width = `${Math.min(dados.qtdIngressos, 100)}%`;
+
+            renderizarListas();
+            salvarStorage();
+        }
+
+        // Salvar LocalStorage
+        function salvarStorage() {
+            localStorage.setItem('show_aindabem_data', JSON.stringify(dados));
+        }
+
+        // Gestão de Custos
+        document.getElementById('form-custo').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const desc = document.getElementById('custo-desc').value;
+            const valor = parseFloat(document.getElementById('custo-valor').value);
+
+            dados.custos.push({ id: Date.now(), desc, valor });
+            document.getElementById('custo-desc').value = '';
+            document.getElementById('custo-valor').value = '';
+            atualizarUI();
+            atualizarGraficoCustos();
+            atualizarGraficoHome();
+        });
+
+        function excluirCusto(id) {
+            dados.custos = dados.custos.filter(item => item.id !== id);
+            atualizarUI();
+            atualizarGraficoCustos();
+            atualizarGraficoHome();
+        }
+
+        // Gestão de Patrocínios
+        document.getElementById('form-patrocinio').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const marca = document.getElementById('pat-marca').value;
+            const cota = document.getElementById('pat-cota').value;
+
+            dados.patrocinios.push({ id: Date.now(), marca, cota });
+            document.getElementById('pat-marca').value = '';
+            atualizarUI();
+            atualizarGraficoPatrocinios();
+            atualizarGraficoHome();
+        });
+
+        function excluirPatrocinio(id) {
+            dados.patrocinios = dados.patrocinios.filter(item => item.id !== id);
+            atualizarUI();
+            atualizarGraficoPatrocinios();
+            atualizarGraficoHome();
+        }
+
+        // Configuração de Ingressos
+        function salvarConfigIngressos() {
+            dados.precoIngresso = parseFloat(document.getElementById('ingresso-preco').value) || 0;
+            let qtd = parseInt(document.getElementById('ingresso-qtd').value) || 0;
+            if (qtd > 100) qtd = 100;
+            if (qtd < 0) qtd = 0;
+            dados.qtdIngressos = qtd;
+            atualizarUI();
+            atualizarGraficoHome();
+        }
+
+        // Renderizar Listas na Tela
+        function renderizarListas() {
+            // Lista Custos
+            const divCustos = document.getElementById('lista-custos');
+            if (dados.custos.length === 0) {
+                divCustos.innerHTML = `<p class="text-gray-400 text-sm italic">Nenhum custo cadastrado ainda.</p>`;
+            } else {
+                divCustos.innerHTML = dados.custos.map(c => `
+                    <div class="flex justify-between items-center bg-peach-light/40 p-3 rounded-xl border border-orange-100">
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">${c.desc}</p>
+                            <p class="text-xs text-rose-600 font-bold">R$ ${Number(c.valor).toFixed(2)}</p>
+                        </div>
+                        <button type="button" onclick="excluirCusto(${c.id})" class="text-gray-400 hover:text-rose-600 text-sm font-bold px-2 py-1 cursor-pointer">✕</button>
+                    </div>
+                `).join('');
+            }
+
+            // Lista Patrocinadores
+            const divPat = document.getElementById('lista-patrocinadores');
+            if (dados.patrocinios.length === 0) {
+                divPat.innerHTML = `<p class="text-gray-400 text-sm italic">Nenhum patrocinador cadastrado.</p>`;
+            } else {
+                divPat.innerHTML = dados.patrocinios.map(p => {
+                    let valorCota = p.cota === 'ouro' ? 'Cota Ouro (R$ 1.000)' : p.cota === 'prata' ? 'Cota Prata (R$ 700)' : 'Cota Apoio (R$ 400)';
+                    let corBadge = p.cota === 'ouro' ? 'text-amber-700 bg-amber-100' : p.cota === 'prata' ? 'text-slate-700 bg-slate-200' : 'text-pink-700 bg-pink-100';
+                    return `
+                        <div class="flex justify-between items-center bg-peach-light/40 p-3 rounded-xl border border-orange-100">
+                            <div>
+                                <p class="font-semibold text-gray-800 text-sm">${p.marca}</p>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${corBadge}">${valorCota}</span>
+                            </div>
+                            <button type="button" onclick="excluirPatrocinio(${p.id})" class="text-gray-400 hover:text-rose-600 text-sm font-bold px-2 py-1 cursor-pointer">✕</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Gráficos com Chart.js
+        function atualizarGraficoHome() {
+            const totais = calcularTotais();
+            const canvasEl = document.getElementById('homeChart');
+            if (!canvasEl) return;
+            const ctx = canvasEl.getContext('2d');
+            
+            if (homeChartInstance) homeChartInstance.destroy();
+
+            homeChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Receitas Totais', 'Custos Totais'],
+                    datasets: [{
+                        label: 'Valor (R$)',
+                        data: [totais.totalReceitas, totais.totalCustos],
+                        backgroundColor: ['#10b981', '#f43f5e'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function atualizarGraficoCustos() {
+            const totais = calcularTotais();
+            const canvasEl = document.getElementById('custosChart');
+            if (!canvasEl) return;
+            const ctx = canvasEl.getContext('2d');
+            
+            if (custosChartInstance) custosChartInstance.destroy();
+
+            custosChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Receitas Totais', 'Custos Totais'],
+                    datasets: [{
+                        label: 'Valor (R$)',
+                        data: [totais.totalReceitas, totais.totalCustos],
+                        backgroundColor: ['#10b981', '#f43f5e'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function atualizarGraficoPatrocinios() {
+            const qtdOuro = dados.patrocinios.filter(p => p.cota === 'ouro').length;
+            const qtdPrata = dados.patrocinios.filter(p => p.cota === 'prata').length;
+            const qtdApoio = dados.patrocinios.filter(p => p.cota === 'apoio').length;
+
+            const canvasEl = document.getElementById('patrocinioChart');
+            if (!canvasEl) return;
+            const ctx = canvasEl.getContext('2d');
+            
+            if (patrocinioChartInstance) patrocinioChartInstance.destroy();
+
+            patrocinioChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cota Ouro', 'Cota Prata', 'Cota Apoio'],
+                    datasets: [{
+                        data: [qtdOuro, qtdPrata, qtdApoio],
+                        backgroundColor: [
+                            '#d4af37', // Dourado
+                            '#c0c0c0', // Prateado
+                            '#ff2a85'  // Rosa vibrante
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // Inicializar aplicação ao carregar
+        window.onload = () => {
+            atualizarUI();
+            atualizarGraficoHome();
+        };
+    </script>
+</body>
+</html>
