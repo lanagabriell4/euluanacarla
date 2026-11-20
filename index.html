@@ -59,7 +59,30 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6 pt-6">
+<body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6">
+
+    <!-- HEADER / TOPO ARTÍSTICO -->
+    <header class="bg-gradient-to-r from-[#FDF3EC] via-[#F7E5D9] to-[#FDF3EC] border-b border-borderPeach px-4 py-6 shadow-sm">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
+            <div>
+                <span class="text-brandPink font-semibold text-xs tracking-widest uppercase">Gestão Financeira do Espetáculo</span>
+                <h1 class="text-3xl sm:text-4xl font-bold text-textDark tracking-wide mt-1">
+                    Ainda Bem! <span class="art-title text-brandPink text-4xl sm:text-5xl font-normal ml-1">Luana canta Marisa</span>
+                </h1>
+            </div>
+            <div class="flex items-center gap-3 bg-white/80 px-4 py-2 rounded-full border border-borderPeach shadow-sm">
+                <div class="flex items-center gap-1 text-xs font-semibold text-textDark">
+                    <i data-lucide="calendar" class="w-4 h-4 text-brandPink"></i>
+                    <span>19.12</span>
+                </div>
+                <span class="text-borderPeach">|</span>
+                <div class="flex items-center gap-1 text-xs font-semibold text-textDark">
+                    <i data-lucide="clock" class="w-4 h-4 text-brandPink"></i>
+                    <span>17:30</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- CONTEÚDO PRINCIPAL (SPA) -->
     <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-grow">
@@ -356,6 +379,7 @@
 
     <!-- JAVASCRIPT DA APLICAÇÃO -->
     <script>
+        // Estado Inicial da Aplicação
         let state = {
             custos: [],
             patrocinadores: [],
@@ -363,8 +387,10 @@
             valorUnitarioIngresso: 50
         };
 
+        // Chave do LocalStorage
         const STORAGE_KEY = 'show_ainda_bem_financeiro_v1';
 
+        // Carregar dados salvos
         function carregarDados() {
             const salvo = localStorage.getItem(STORAGE_KEY);
             if (salvo) {
@@ -379,11 +405,13 @@
             atualizarInterface();
         }
 
+        // Salvar dados
         function salvarDados() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             atualizarInterface();
         }
 
+        // Resetar dados
         function resetarDados() {
             if (confirm("Deseja realmente apagar todos os dados inseridos e reiniciar o painel?")) {
                 localStorage.removeItem(STORAGE_KEY);
@@ -394,10 +422,12 @@
             }
         }
 
+        // Navegação entre Abas (SPA)
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${tabId}`).classList.add('active');
 
+            // Atualizar cor dos botões da barra de navegação inferior
             const tabs = ['home', 'custos', 'patrocinio', 'ingressos'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`nav-btn-${t}`);
@@ -412,15 +442,18 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
+            // Recriar gráficos se necessário ao abrir aba
             if (tabId === 'custos' || tabId === 'patrocinio') {
                 atualizarGraficos();
             }
         }
 
+        // Formatação Monetária BRL
         function formatarMoeda(valor) {
             return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
         }
 
+        // --- LÓGICA DE CUSTOS ---
         function adicionarCusto(e) {
             e.preventDefault();
             const desc = document.getElementById('custo-desc').value.trim();
@@ -438,6 +471,7 @@
             salvarDados();
         }
 
+        // --- LÓGICA DE PATROCÍNIO ---
         const cotasValores = { ouro: 1000, prata: 700, apoio: 400 };
 
         function adicionarPatrocinador(e) {
@@ -457,6 +491,7 @@
             salvarDados();
         }
 
+        // --- LÓGICA DE INGRESSOS ---
         function alterarIngressos(delta) {
             let novoValor = state.ingressosVendidos + delta;
             if (novoValor >= 0 && novoValor <= 100) {
@@ -482,6 +517,7 @@
             salvarDados();
         }
 
+        // --- CÁLCULOS E ATUALIZAÇÃO GERAL ---
         function calcularTotais() {
             const receitaIngressos = state.ingressosVendidos * state.valorUnitarioIngresso;
             const receitaPatrocinios = state.patrocinadores.reduce((acc, p) => acc + p.valor, 0);
@@ -495,6 +531,7 @@
         function atualizarInterface() {
             const { receitaIngressos, receitaPatrocinios, ganhosTotais, custosTotais, saldoFinal } = calcularTotais();
 
+            // 1. Home / Resumos
             document.getElementById('home-resumo-custos').innerText = formatarMoeda(custosTotais) + ' em custos';
             document.getElementById('home-resumo-patrocinio').innerText = formatarMoeda(receitaPatrocinios) + ' captados';
             document.getElementById('home-resumo-ingressos').innerText = `${state.ingressosVendidos} de 100 vendidos`;
@@ -513,6 +550,7 @@
                 homeSaldoBadge.innerText = "Atenção / Prejuízo";
             }
 
+            // 2. Custos View
             document.getElementById('lbl-ganhos-totais').innerText = formatarMoeda(ganhosTotais);
             document.getElementById('lbl-custos-totais').innerText = formatarMoeda(custosTotais);
 
@@ -530,6 +568,7 @@
                 statusValor.innerText = formatarMoeda(saldoFinal);
             }
 
+            // Renderizar Lista de Custos
             const listaCustosEl = document.getElementById('lista-custos-container');
             if (state.custos.length === 0) {
                 listaCustosEl.innerHTML = `<div class="p-6 text-center text-sm text-gray-400">Nenhum custo cadastrado até o momento.</div>`;
@@ -549,6 +588,7 @@
                 `).join('');
             }
 
+            // 3. Patrocínio View
             document.getElementById('patrocinio-total-captado').innerText = `Total: ${formatarMoeda(receitaPatrocinios)}`;
             const listaPatrocinadoresEl = document.getElementById('lista-patrocinadores-container');
             if (state.patrocinadores.length === 0) {
@@ -573,22 +613,28 @@
                 }).join('');
             }
 
+            // 4. Ingressos View
             const percentual = Math.round((state.ingressosVendidos / 100) * 100);
             document.getElementById('ingresso-percentual').innerText = `${percentual}%`;
             document.getElementById('ingresso-barra-progresso').style.width = `${percentual}%`;
             document.getElementById('ingresso-qtd-vendida').innerText = `${state.ingressosVendidos} vendidos`;
             document.getElementById('ingresso-total-arrecadado').innerText = formatarMoeda(receitaIngressos);
 
+            // Atualizar Ícones Lucide
             lucide.createIcons();
+
+            // Atualizar Gráficos se instanciados
             atualizarGraficos();
         }
 
+        // --- GRÁFICOS (CHART.JS) ---
         let financeChartInstance = null;
         let patrocinioChartInstance = null;
 
         function atualizarGraficos() {
             const { ganhosTotais, custosTotais } = calcularTotais();
 
+            // Gráfico de Custos vs Ganhos (Bar Chart)
             const ctxFinance = document.getElementById('financeChart');
             if (ctxFinance) {
                 if (financeChartInstance) financeChartInstance.destroy();
@@ -611,6 +657,7 @@
                 });
             }
 
+            // Gráfico de Rosca de Patrocínios (Doughnut Chart)
             const countOuro = state.patrocinadores.filter(p => p.cota === 'ouro').length;
             const countPrata = state.patrocinadores.filter(p => p.cota === 'prata').length;
             const countApoio = state.patrocinadores.filter(p => p.cota === 'apoio').length;
@@ -639,6 +686,7 @@
             }
         }
 
+        // Inicializar aplicação ao carregar a página
         window.onload = () => {
             carregarDados();
         };
